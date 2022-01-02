@@ -150,7 +150,7 @@ color: white;</string>
             </layout>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="frame_4">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -158,6 +158,191 @@ color: white;</string>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_9">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+color: white;
+font: 11pt &quot;Century Gothic&quot;;
+text-align: left;
+}
+
+QPushButton:hover {
+border: 0px;
+	background-color: rgb(77, 77, 77);
+}</string>
+               </property>
+               <property name="text">
+                <string>     Home</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../QRC/file.qrc">
+                 <normaloff>:/icons/imagens/casa_25x25.png</normaloff>:/icons/imagens/casa_25x25.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_11">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+color: white;
+font: 11pt &quot;Century Gothic&quot;;
+text-align: left;
+}
+
+QPushButton:hover {
+border: 0px;
+	background-color: rgb(77, 77, 77);
+}</string>
+               </property>
+               <property name="text">
+                <string>     Add Songs</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../QRC/adicionar-botao_br.png</normaloff>../QRC/adicionar-botao_br.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_13">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+color: white;
+font: 11pt &quot;Century Gothic&quot;;
+text-align: left;
+}
+
+QPushButton:hover {
+border: 0px;
+	background-color: rgb(77, 77, 77);
+}</string>
+               </property>
+               <property name="text">
+                <string>     Remove Songs</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../QRC/lixo_br.png</normaloff>../QRC/lixo_br.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_12">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+color: white;
+font: 11pt &quot;Century Gothic&quot;;
+text-align: left;
+}
+
+QPushButton:hover {
+border: 0px;
+	background-color: rgb(77, 77, 77);
+}</string>
+               </property>
+               <property name="text">
+                <string>     Download</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../QRC/file.qrc">
+                 <normaloff>:/icons/imagens/download_25x25.png</normaloff>:/icons/imagens/download_25x25.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -616,7 +801,10 @@ color: white;</string>
                       <property name="font">
                        <font>
                         <family>Montserrat</family>
-                        <pointsize>10</pointsize>
+                        <pointsize>11</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
@@ -626,6 +814,8 @@ color: white;</string>
 	background-color: #00A9E2;
 	border-radius: 5px;
 	margin-left: -3px;
+	
+	font: 11pt &quot;Montserrat&quot;;
 }
 
 QPushButton:hover {
@@ -684,7 +874,10 @@ color: white;</string>
                       <property name="font">
                        <font>
                         <family>Montserrat</family>
-                        <pointsize>10</pointsize>
+                        <pointsize>11</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
@@ -693,6 +886,8 @@ color: white;</string>
 	color: white;
 	background-color: #00A9E2;
 	border-radius: 5px;
+	
+	font: 11pt &quot;Montserrat&quot;;
 }
 
 QPushButton:hover {
