@@ -96,7 +96,7 @@
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <item alignment="Qt::AlignHCenter|Qt::AlignTop">
            <widget class="QFrame" name="frame_2">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -105,6 +105,9 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="topMargin">
+              <number>35</number>
+             </property>
              <item alignment="Qt::AlignHCenter">
               <widget class="QFrame" name="foto_perfil">
                <property name="minimumSize">
@@ -475,6 +478,9 @@ background-image: url(:/icons/imagens/x_hover.png);
        </item>
        <item alignment="Qt::AlignBottom">
         <widget class="QFrame" name="bottom">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(63, 63, 63);</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -500,14 +506,14 @@ background-image: url(:/icons/imagens/x_hover.png);
           <item>
            <widget class="QFrame" name="frame_10">
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignHCenter">
            <widget class="QFrame" name="frame_12">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -517,23 +523,92 @@ background-image: url(:/icons/imagens/x_hover.png);
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QPushButton" name="pushButton_7">
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+background-image: url(:/icons/imagens/anterior.png);
+}
+
+QPushButton:hover {
+border: 0px;
+background-image: url(:/icons/imagens/anterior_hover.png);
+}</string>
+               </property>
                <property name="text">
-                <string>PushButton</string>
+                <string/>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_6">
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+background-image: url(:/icons/imagens/toque.png);
+}
+
+QPushButton:hover {
+border: 0px;
+background-image: url(:/icons/imagens/toque_hover.png);
+}</string>
+               </property>
                <property name="text">
-                <string>PushButton</string>
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_8">
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>60</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+border: 0px;
+background-image: url(:/icons/imagens/proximo.png);
+}
+
+QPushButton:hover {
+border: 0px;
+background-image: url(:/icons/imagens/proximo_hover.png);
+}</string>
+               </property>
+               <property name="text">
+                <string/>
                </property>
               </widget>
              </item>
@@ -543,11 +618,47 @@ background-image: url(:/icons/imagens/x_hover.png);
           <item>
            <widget class="QFrame" name="frame_11">
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
+            <widget class="QPushButton" name="pushButton_5">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>30</y>
+               <width>25</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+border: 0px;
+	background-image: url(:/icons/imagens/volume.png);
+}
+
+QPushButton:hover {
+border: 0px;
+background-image: url(:/icons/imagens/volume_hover.png);
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </widget>
           </item>
          </layout>
