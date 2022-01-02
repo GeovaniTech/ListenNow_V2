@@ -511,6 +511,85 @@ background-image: url(:/icons/imagens/x_hover.png);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QFrame" name="frame_13">
+               <property name="minimumSize">
+                <size>
+                 <width>65</width>
+                 <height>65</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>65</width>
+                 <height>65</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-image: url(:/icons/imagens/Logo 65x65.png);</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_14">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="lbl_nome_musica">
+                  <property name="font">
+                   <font>
+                    <family>Montserrat</family>
+                    <pointsize>12</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 12pt &quot;Montserrat&quot;;
+color: white;</string>
+                  </property>
+                  <property name="text">
+                   <string>Music</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lbl_nome_artista">
+                  <property name="font">
+                   <font>
+                    <family>Montserrat</family>
+                    <pointsize>10</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">font: 10pt &quot;Montserrat&quot;;
+color: white;</string>
+                  </property>
+                  <property name="text">
+                   <string>Artist</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
@@ -615,7 +694,7 @@ background-image: url(:/icons/imagens/proximo_hover.png);
             </layout>
            </widget>
           </item>
-          <item>
+          <item alignment="Qt::AlignRight">
            <widget class="QFrame" name="frame_11">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -623,29 +702,29 @@ background-image: url(:/icons/imagens/proximo_hover.png);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QPushButton" name="pushButton_5">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>30</y>
-               <width>25</width>
-               <height>25</height>
-              </rect>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <property name="spacing">
+              <number>9</number>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>25</height>
-              </size>
+             <property name="rightMargin">
+              <number>45</number>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>25</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton {
+             <item>
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="minimumSize">
+                <size>
+                 <width>25</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>25</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
 border: 0px;
 	background-image: url(:/icons/imagens/volume.png);
 }
@@ -654,11 +733,50 @@ QPushButton:hover {
 border: 0px;
 background-image: url(:/icons/imagens/volume_hover.png);
 }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="volume_slider">
+               <property name="minimumSize">
+                <size>
+                 <width>110</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QSlider::groove:horizontal { 
+	background-color: #00A9E2;
+	height: 10px;
+	border-radius: 4px;
+	border: 0px solid#00A9E2;
+}
+
+QSlider::handle:horizontal { 
+	background-color: #0092C2;
+	border: 2px solid #0092C2; 
+	width: 11px; 
+	height: 16px;
+	margin-top: -3px; 
+	margin-bottom: -3px;  
+	line-height: 20px; 
+	border-radius: 7px; 
+}
+
+QSlider::handle:horizontal:hover { 
+	border-radius: 7px; 
+}
+</string>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
