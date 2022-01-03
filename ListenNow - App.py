@@ -30,6 +30,8 @@ class TestAnimation(QMainWindow):
         self.ui.pushButton_2.clicked.connect(self.Close)
         self.ui.pushButton_3.clicked.connect(self.Minimum)
 
+        self.ui.stackedWidget.setCurrentIndex(0)
+
     def Animation(self):
         global newWidth
         width = self.ui.slide_menu.width()

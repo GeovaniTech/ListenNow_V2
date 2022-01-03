@@ -14,10 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1101, 671)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/imagens/logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
+        MainWindow.resize(1154, 854)
         MainWindow.setStyleSheet("background-color: rgb(74, 74, 74);")
         self.center = QtWidgets.QWidget(MainWindow)
         self.center.setObjectName("center")
@@ -25,140 +22,125 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.slide_menu = QtWidgets.QFrame(self.center)
-        self.slide_menu.setMaximumSize(QtCore.QSize(275, 16777215))
-        self.slide_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.slide_menu.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.slide_menu.setObjectName("slide_menu")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.slide_menu)
+        self.left_container = QtWidgets.QFrame(self.center)
+        self.left_container.setMaximumSize(QtCore.QSize(275, 16777215))
+        self.left_container.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.left_container.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.left_container.setObjectName("left_container")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.left_container)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.frame_3 = QtWidgets.QFrame(self.slide_menu)
-        self.frame_3.setMinimumSize(QtCore.QSize(273, 0))
-        self.frame_3.setStyleSheet("background-color: rgb(47, 47, 47);")
-        self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_3)
+        self.slide_menu = QtWidgets.QFrame(self.left_container)
+        self.slide_menu.setMinimumSize(QtCore.QSize(273, 0))
+        self.slide_menu.setStyleSheet("background-color: rgb(47, 47, 47);")
+        self.slide_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.slide_menu.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.slide_menu.setObjectName("slide_menu")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.slide_menu)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.frame_13 = QtWidgets.QFrame(self.frame_3)
-        self.frame_13.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_13.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_13.setObjectName("frame_13")
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_13)
-        self.verticalLayout_6.setContentsMargins(0, 20, 0, 0)
-        self.verticalLayout_6.setSpacing(0)
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.frame_15 = QtWidgets.QFrame(self.frame_13)
-        self.frame_15.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_15.setObjectName("frame_15")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_15)
-        self.verticalLayout_7.setContentsMargins(-1, 15, -1, -1)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.label_3 = QtWidgets.QLabel(self.frame_15)
-        self.label_3.setMinimumSize(QtCore.QSize(120, 120))
-        self.label_3.setMaximumSize(QtCore.QSize(120, 120))
-        self.label_3.setStyleSheet("background-image: url(:/icons/imagens/foto_perfil.png);\n"
-"color:#006F75;\n"
-"border-radius: 60px;\n"
-"border: 5px solid rgb(170, 170, 170);")
-        self.label_3.setText("")
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout_7.addWidget(self.label_3, 0, QtCore.Qt.AlignHCenter)
-        self.label_4 = QtWidgets.QLabel(self.frame_15)
-        self.label_4.setStyleSheet("color: gray;\n"
-"font: 12pt \"Montserrat\";")
-        self.label_4.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse|QtCore.Qt.TextSelectableByMouse)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_7.addWidget(self.label_4)
-        self.verticalLayout_6.addWidget(self.frame_15, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.verticalLayout_3.addWidget(self.frame_13, 0, QtCore.Qt.AlignTop)
-        self.frame_2 = QtWidgets.QFrame(self.frame_3)
+        self.frame_2 = QtWidgets.QFrame(self.slide_menu)
         self.frame_2.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.frame_2)
-        self.verticalLayout_13.setContentsMargins(0, -1, 0, 0)
-        self.verticalLayout_13.setSpacing(0)
-        self.verticalLayout_13.setObjectName("verticalLayout_13")
-        self.pushButton_5 = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton_5.setMinimumSize(QtCore.QSize(0, 41))
-        self.pushButton_5.setSizeIncrement(QtCore.QSize(0, 41))
-        self.pushButton_5.setStyleSheet("QPushButton {\n"
-"    border: 0px solid rgb(17, 98, 102);\n"
-"    color: white;\n"
-"    font: 10pt \"Montserrat\";\n"
-"    text-align: left\n"
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_2)
+        self.verticalLayout_5.setContentsMargins(-1, 35, -1, -1)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.foto_perfil = QtWidgets.QFrame(self.frame_2)
+        self.foto_perfil.setMinimumSize(QtCore.QSize(120, 120))
+        self.foto_perfil.setMaximumSize(QtCore.QSize(120, 120))
+        self.foto_perfil.setStyleSheet("background-image: url(:/icons/imagens/foto_perfil.png);\n"
+"color: rgb(23, 140, 144);\n"
+"border-radius: 60px;\n"
+"border: 5px solid rgb(116, 116, 116)")
+        self.foto_perfil.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.foto_perfil.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.foto_perfil.setObjectName("foto_perfil")
+        self.verticalLayout_5.addWidget(self.foto_perfil, 0, QtCore.Qt.AlignHCenter)
+        self.lbl_nome_2 = QtWidgets.QLabel(self.frame_2)
+        self.lbl_nome_2.setStyleSheet("font: 12pt \"Montserrat\";\n"
+"color: white;")
+        self.lbl_nome_2.setObjectName("lbl_nome_2")
+        self.verticalLayout_5.addWidget(self.lbl_nome_2)
+        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.frame_4 = QtWidgets.QFrame(self.slide_menu)
+        self.frame_4.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_4.setObjectName("frame_4")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_4)
+        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_11.setSpacing(0)
+        self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.pushButton_9 = QtWidgets.QPushButton(self.frame_4)
+        self.pushButton_9.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_9.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.pushButton_9.setStyleSheet("QPushButton {\n"
+"border: 0px;\n"
+"color: white;\n"
+"font: 11pt \"Century Gothic\";\n"
+"text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(81, 81, 81);\n"
-"\n"
+"border: 0px;\n"
+"    background-color: rgb(77, 77, 77);\n"
 "}")
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.verticalLayout_13.addWidget(self.pushButton_5)
-        self.pushButton_10 = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton_10.setMinimumSize(QtCore.QSize(0, 41))
-        self.pushButton_10.setSizeIncrement(QtCore.QSize(0, 41))
-        self.pushButton_10.setStyleSheet("QPushButton {\n"
-"    border: 0px solid rgb(17, 98, 102);\n"
-"    color: white;\n"
-"    font: 10pt \"Montserrat\";\n"
-"    text-align: left;\n"
-"    image-align: left;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(81, 81, 81);\n"
-"\n"
-"}")
-        self.pushButton_10.setIconSize(QtCore.QSize(25, 25))
-        self.pushButton_10.setObjectName("pushButton_10")
-        self.verticalLayout_13.addWidget(self.pushButton_10)
-        self.pushButton_11 = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton_11.setMinimumSize(QtCore.QSize(0, 41))
-        self.pushButton_11.setSizeIncrement(QtCore.QSize(0, 41))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/imagens/casa_25x25.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_9.setIcon(icon)
+        self.pushButton_9.setIconSize(QtCore.QSize(30, 30))
+        self.pushButton_9.setObjectName("pushButton_9")
+        self.verticalLayout_11.addWidget(self.pushButton_9)
+        self.pushButton_11 = QtWidgets.QPushButton(self.frame_4)
+        self.pushButton_11.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_11.setMaximumSize(QtCore.QSize(16777215, 40))
         self.pushButton_11.setStyleSheet("QPushButton {\n"
-"    border: 0px solid rgb(17, 98, 102);\n"
-"    color: white;\n"
-"    font: 10pt \"Montserrat\";\n"
-"    text-align: left\n"
+"border: 0px;\n"
+"color: white;\n"
+"font: 11pt \"Century Gothic\";\n"
+"text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(81, 81, 81);\n"
-"\n"
+"border: 0px;\n"
+"    background-color: rgb(77, 77, 77);\n"
 "}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("../QRC/adicionar-botao_br.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_11.setIcon(icon1)
+        self.pushButton_11.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_11.setObjectName("pushButton_11")
-        self.verticalLayout_13.addWidget(self.pushButton_11)
-        self.pushButton_12 = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton_12.setMinimumSize(QtCore.QSize(0, 41))
-        self.pushButton_12.setMaximumSize(QtCore.QSize(16777215, 41))
+        self.verticalLayout_11.addWidget(self.pushButton_11)
+        self.pushButton_12 = QtWidgets.QPushButton(self.frame_4)
+        self.pushButton_12.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_12.setMaximumSize(QtCore.QSize(16777215, 40))
         self.pushButton_12.setStyleSheet("QPushButton {\n"
-"    border: 0px solid rgb(17, 98, 102);\n"
-"    color: white;\n"
-"    font: 10pt \"Montserrat\";\n"
-"    text-align: left\n"
+"border: 0px;\n"
+"color: white;\n"
+"font: 11pt \"Century Gothic\";\n"
+"text-align: left;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(81, 81, 81);\n"
-"\n"
+"border: 0px;\n"
+"    background-color: rgb(77, 77, 77);\n"
 "}")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/icons/imagens/download_25x25.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_12.setIcon(icon2)
+        self.pushButton_12.setIconSize(QtCore.QSize(30, 30))
         self.pushButton_12.setObjectName("pushButton_12")
-        self.verticalLayout_13.addWidget(self.pushButton_12)
-        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
-        self.frame = QtWidgets.QFrame(self.frame_3)
+        self.verticalLayout_11.addWidget(self.pushButton_12)
+        self.verticalLayout_3.addWidget(self.frame_4, 0, QtCore.Qt.AlignTop)
+        self.frame = QtWidgets.QFrame(self.slide_menu)
         self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.verticalLayout_3.addWidget(self.frame)
-        self.verticalLayout.addWidget(self.frame_3)
-        self.horizontalLayout.addWidget(self.slide_menu)
+        self.verticalLayout.addWidget(self.slide_menu)
+        self.horizontalLayout.addWidget(self.left_container)
         self.right_conteiner = QtWidgets.QFrame(self.center)
         self.right_conteiner.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.right_conteiner.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -167,51 +149,43 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.frame_6 = QtWidgets.QFrame(self.right_conteiner)
-        self.frame_6.setStyleSheet("background-color: rgb(47, 47, 47);")
-        self.frame_6.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_6)
+        self.top = QtWidgets.QFrame(self.right_conteiner)
+        self.top.setStyleSheet("background-color: rgb(47, 47, 47);")
+        self.top.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.top.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.top.setObjectName("top")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.top)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.frame_7 = QtWidgets.QFrame(self.frame_6)
+        self.frame_7 = QtWidgets.QFrame(self.top)
         self.frame_7.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_7.setObjectName("frame_7")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_7)
-        self.horizontalLayout_5.setContentsMargins(0, -1, -1, -1)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.pushButton_4 = QtWidgets.QPushButton(self.frame_7)
         self.pushButton_4.setMinimumSize(QtCore.QSize(35, 35))
         self.pushButton_4.setMaximumSize(QtCore.QSize(35, 35))
         self.pushButton_4.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
+"border: 0px;\n"
 "    background-image: url(:/icons/imagens/menu.png);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/menu_hover.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/menu_hover.png);\n"
 "}")
         self.pushButton_4.setText("")
         self.pushButton_4.setObjectName("pushButton_4")
         self.horizontalLayout_5.addWidget(self.pushButton_4)
         self.horizontalLayout_2.addWidget(self.frame_7, 0, QtCore.Qt.AlignLeft)
-        self.frame_9 = QtWidgets.QFrame(self.frame_6)
+        self.frame_9 = QtWidgets.QFrame(self.top)
         self.frame_9.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_9.setObjectName("frame_9")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_9)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label = QtWidgets.QLabel(self.frame_9)
-        self.label.setStyleSheet("color: white;\n"
-"font: 16pt \"Montserrat\";")
-        self.label.setObjectName("label")
-        self.verticalLayout_4.addWidget(self.label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.horizontalLayout_2.addWidget(self.frame_9)
-        self.frame_8 = QtWidgets.QFrame(self.frame_6)
+        self.frame_8 = QtWidgets.QFrame(self.top)
         self.frame_8.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_8.setObjectName("frame_8")
@@ -221,242 +195,433 @@ class Ui_MainWindow(object):
         self.pushButton_3.setMinimumSize(QtCore.QSize(30, 30))
         self.pushButton_3.setMaximumSize(QtCore.QSize(30, 30))
         self.pushButton_3.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    background-image: url(:/icons/imagens/minus.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/minus.png);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/minus_hover.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/minus_hover.png);\n"
 "}")
         self.pushButton_3.setText("")
         self.pushButton_3.setObjectName("pushButton_3")
         self.horizontalLayout_4.addWidget(self.pushButton_3)
-        self.pushButton = QtWidgets.QPushButton(self.frame_8)
-        self.pushButton.setMinimumSize(QtCore.QSize(25, 25))
-        self.pushButton.setMaximumSize(QtCore.QSize(25, 25))
-        self.pushButton.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton_2.setMinimumSize(QtCore.QSize(25, 25))
+        self.pushButton_2.setMaximumSize(QtCore.QSize(25, 25))
+        self.pushButton_2.setStyleSheet("QPushButton {\n"
+"border: 0px;\n"
 "    background-image: url(:/icons/imagens/max.png);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/max_hover.png);\n"
-"}")
-        self.pushButton.setText("")
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_4.addWidget(self.pushButton)
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_8)
-        self.pushButton_2.setMinimumSize(QtCore.QSize(30, 30))
-        self.pushButton_2.setMaximumSize(QtCore.QSize(30, 30))
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    background-image: url(:/icons/imagens/x.png);\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/x_hover.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/max_hover.png);\n"
 "}")
         self.pushButton_2.setText("")
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout_4.addWidget(self.pushButton_2)
-        self.horizontalLayout_2.addWidget(self.frame_8, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
-        self.verticalLayout_2.addWidget(self.frame_6, 0, QtCore.Qt.AlignTop)
-        self.frame_5 = QtWidgets.QFrame(self.right_conteiner)
-        self.frame_5.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_5.setObjectName("frame_5")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.frame_5)
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_5.setSpacing(0)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.stackedWidget = QtWidgets.QStackedWidget(self.frame_5)
+        self.pushButton = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton.setMinimumSize(QtCore.QSize(30, 30))
+        self.pushButton.setMaximumSize(QtCore.QSize(30, 30))
+        self.pushButton.setStyleSheet("QPushButton {\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/x.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/x_hover.png);\n"
+"}")
+        self.pushButton.setText("")
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_4.addWidget(self.pushButton)
+        self.horizontalLayout_2.addWidget(self.frame_8, 0, QtCore.Qt.AlignRight)
+        self.verticalLayout_2.addWidget(self.top, 0, QtCore.Qt.AlignTop)
+        self.frame_3 = QtWidgets.QFrame(self.right_conteiner)
+        self.frame_3.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_3)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.stackedWidget = QtWidgets.QStackedWidget(self.frame_3)
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
-        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.page)
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_8.setSpacing(0)
-        self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.frame_14 = QtWidgets.QFrame(self.page)
-        self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_14.setObjectName("frame_14")
-        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.frame_14)
-        self.verticalLayout_9.setObjectName("verticalLayout_9")
-        self.frame_16 = QtWidgets.QFrame(self.frame_14)
-        self.frame_16.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_16.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_16.setObjectName("frame_16")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_16)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
-        self.frame_17 = QtWidgets.QFrame(self.frame_16)
-        self.frame_17.setMinimumSize(QtCore.QSize(269, 256))
-        self.frame_17.setMaximumSize(QtCore.QSize(269, 256))
-        self.frame_17.setStyleSheet("background-image: url(:/icons/imagens/logo.ico);")
-        self.frame_17.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_17.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_17.setObjectName("frame_17")
-        self.verticalLayout_10.addWidget(self.frame_17)
-        self.verticalLayout_9.addWidget(self.frame_16, 0, QtCore.Qt.AlignHCenter)
-        self.label_2 = QtWidgets.QLabel(self.frame_14)
-        self.label_2.setStyleSheet("color: gray;\n"
-"font: 16pt \"Montserrat\";")
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout_9.addWidget(self.label_2)
-        self.verticalLayout_8.addWidget(self.frame_14, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.page)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.frame_5 = QtWidgets.QFrame(self.page)
+        self.frame_5.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_5.setObjectName("frame_5")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame_5)
+        self.verticalLayout_7.setSpacing(11)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.frame_6 = QtWidgets.QFrame(self.frame_5)
+        self.frame_6.setMinimumSize(QtCore.QSize(256, 256))
+        self.frame_6.setMaximumSize(QtCore.QSize(256, 256))
+        self.frame_6.setStyleSheet("background-image: url(:/icons/imagens/logo.ico);")
+        self.frame_6.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.verticalLayout_7.addWidget(self.frame_6)
+        self.label = QtWidgets.QLabel(self.frame_5)
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(14)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color: rgb(212, 212, 213);")
+        self.label.setObjectName("label")
+        self.verticalLayout_7.addWidget(self.label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_6.addWidget(self.frame_5, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.page_2)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.frame_15 = QtWidgets.QFrame(self.page_2)
+        self.frame_15.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_15.setObjectName("frame_15")
+        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.frame_15)
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_10.setSpacing(0)
+        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.frame_17 = QtWidgets.QFrame(self.frame_15)
+        self.frame_17.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_17.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_17.setObjectName("frame_17")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frame_17)
+        self.horizontalLayout_11.setContentsMargins(-1, -1, -1, 16)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.label_2 = QtWidgets.QLabel(self.frame_17)
+        self.label_2.setStyleSheet("color: white;\n"
+"font: 25pt \"Century Gothic\";")
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_11.addWidget(self.label_2, 0, QtCore.Qt.AlignBottom)
+        self.verticalLayout_10.addWidget(self.frame_17, 0, QtCore.Qt.AlignHCenter)
+        self.frame_16 = QtWidgets.QFrame(self.frame_15)
+        self.frame_16.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_16.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_16.setObjectName("frame_16")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_16)
+        self.horizontalLayout_10.setSpacing(0)
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
+        self.line_link = QtWidgets.QLineEdit(self.frame_16)
+        self.line_link.setMinimumSize(QtCore.QSize(750, 61))
+        self.line_link.setMaximumSize(QtCore.QSize(779, 61))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(12)
+        self.line_link.setFont(font)
+        self.line_link.setStyleSheet("border: 2px solid #00A9E2;\n"
+"color: white;")
+        self.line_link.setInputMask("")
+        self.line_link.setText("")
+        self.line_link.setFrame(True)
+        self.line_link.setCursorPosition(0)
+        self.line_link.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
+        self.line_link.setClearButtonEnabled(True)
+        self.line_link.setObjectName("line_link")
+        self.horizontalLayout_10.addWidget(self.line_link)
+        self.btn_baixar = QtWidgets.QPushButton(self.frame_16)
+        self.btn_baixar.setMinimumSize(QtCore.QSize(91, 61))
+        self.btn_baixar.setMaximumSize(QtCore.QSize(91, 61))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.btn_baixar.setFont(font)
+        self.btn_baixar.setStyleSheet("QPushButton {\n"
+"    border: 0px solid #00A9E2;\n"
+"    color: white;\n"
+"    background-color: #00A9E2;\n"
+"    border-radius: 5px;\n"
+"    margin-left: -3px;\n"
+"    \n"
+"    font: 11pt \"Montserrat\";\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(0, 183, 244)\n"
+"}")
+        self.btn_baixar.setObjectName("btn_baixar")
+        self.horizontalLayout_10.addWidget(self.btn_baixar)
+        self.verticalLayout_10.addWidget(self.frame_16)
+        self.frame_18 = QtWidgets.QFrame(self.frame_15)
+        self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_18.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_18.setObjectName("frame_18")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_18)
+        self.horizontalLayout_9.setContentsMargins(-1, 16, -1, -1)
+        self.horizontalLayout_9.setSpacing(12)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.listennow_downloader_2 = QtWidgets.QLabel(self.frame_18)
+        self.listennow_downloader_2.setStyleSheet("font: 16pt \"Century Gothic\";\n"
+"color: white;")
+        self.listennow_downloader_2.setObjectName("listennow_downloader_2")
+        self.horizontalLayout_9.addWidget(self.listennow_downloader_2)
+        self.btn_baixar_2 = QtWidgets.QPushButton(self.frame_18)
+        self.btn_baixar_2.setMinimumSize(QtCore.QSize(141, 35))
+        self.btn_baixar_2.setMaximumSize(QtCore.QSize(141, 35))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.btn_baixar_2.setFont(font)
+        self.btn_baixar_2.setStyleSheet("QPushButton {\n"
+"    border: 0px solid #00A9E2;\n"
+"    color: white;\n"
+"    background-color: #00A9E2;\n"
+"    border-radius: 5px;\n"
+"    \n"
+"    font: 11pt \"Montserrat\";\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(0, 183, 244)\n"
+"}")
+        self.btn_baixar_2.setObjectName("btn_baixar_2")
+        self.horizontalLayout_9.addWidget(self.btn_baixar_2)
+        self.verticalLayout_10.addWidget(self.frame_18, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_9.addWidget(self.frame_15, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.stackedWidget.addWidget(self.page_2)
-        self.verticalLayout_5.addWidget(self.stackedWidget)
-        self.verticalLayout_2.addWidget(self.frame_5)
-        self.frame_4 = QtWidgets.QFrame(self.right_conteiner)
-        self.frame_4.setStyleSheet("\n"
-"background-color: rgb(63, 63, 63);")
-        self.frame_4.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_4.setObjectName("frame_4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame_4)
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.page_3)
+        self.verticalLayout_12.setObjectName("verticalLayout_12")
+        self.frame_19 = QtWidgets.QFrame(self.page_3)
+        self.frame_19.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_19.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_19.setObjectName("frame_19")
+        self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.frame_19)
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_13.setSpacing(10)
+        self.verticalLayout_13.setObjectName("verticalLayout_13")
+        self.frame_20 = QtWidgets.QFrame(self.frame_19)
+        self.frame_20.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_20.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_20.setObjectName("frame_20")
+        self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.frame_20)
+        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_12.setSpacing(0)
+        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.line_link_2 = QtWidgets.QLineEdit(self.frame_20)
+        self.line_link_2.setMinimumSize(QtCore.QSize(750, 61))
+        self.line_link_2.setMaximumSize(QtCore.QSize(16777215, 61))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(12)
+        self.line_link_2.setFont(font)
+        self.line_link_2.setStyleSheet("border: 2px solid #00A9E2;\n"
+"color: white;")
+        self.line_link_2.setInputMask("")
+        self.line_link_2.setText("")
+        self.line_link_2.setFrame(True)
+        self.line_link_2.setCursorPosition(0)
+        self.line_link_2.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
+        self.line_link_2.setClearButtonEnabled(True)
+        self.line_link_2.setObjectName("line_link_2")
+        self.horizontalLayout_12.addWidget(self.line_link_2)
+        self.btn_baixar_3 = QtWidgets.QPushButton(self.frame_20)
+        self.btn_baixar_3.setMinimumSize(QtCore.QSize(91, 61))
+        self.btn_baixar_3.setMaximumSize(QtCore.QSize(91, 61))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.btn_baixar_3.setFont(font)
+        self.btn_baixar_3.setStyleSheet("QPushButton {\n"
+"    border: 0px solid #00A9E2;\n"
+"    color: white;\n"
+"    background-color: #00A9E2;\n"
+"    border-radius: 5px;\n"
+"    margin-left: -3px;\n"
+"    \n"
+"    font: 11pt \"Montserrat\";\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    \n"
+"    background-color: rgb(0, 183, 244)\n"
+"}")
+        self.btn_baixar_3.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("../QRC/search_hover.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_baixar_3.setIcon(icon3)
+        self.btn_baixar_3.setIconSize(QtCore.QSize(60, 60))
+        self.btn_baixar_3.setObjectName("btn_baixar_3")
+        self.horizontalLayout_12.addWidget(self.btn_baixar_3)
+        self.verticalLayout_13.addWidget(self.frame_20)
+        self.tableView = QtWidgets.QTableView(self.frame_19)
+        self.tableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableView.setShowGrid(False)
+        self.tableView.setObjectName("tableView")
+        self.verticalLayout_13.addWidget(self.tableView)
+        self.verticalLayout_12.addWidget(self.frame_19)
+        self.stackedWidget.addWidget(self.page_3)
+        self.verticalLayout_4.addWidget(self.stackedWidget)
+        self.verticalLayout_2.addWidget(self.frame_3)
+        self.bottom = QtWidgets.QFrame(self.right_conteiner)
+        self.bottom.setStyleSheet("background-color: rgb(63, 63, 63);")
+        self.bottom.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.bottom.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.bottom.setObjectName("bottom")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.bottom)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.frame_10 = QtWidgets.QFrame(self.frame_4)
+        self.frame_10 = QtWidgets.QFrame(self.bottom)
         self.frame_10.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_10.setObjectName("frame_10")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.frame_10)
-        self.horizontalLayout_8.setContentsMargins(10, 0, 0, 0)
-        self.horizontalLayout_8.setSpacing(7)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.frame_19 = QtWidgets.QFrame(self.frame_10)
-        self.frame_19.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_19.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_19.setObjectName("frame_19")
-        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.frame_19)
-        self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_12.setSpacing(0)
-        self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.frame_20 = QtWidgets.QFrame(self.frame_19)
-        self.frame_20.setMinimumSize(QtCore.QSize(65, 65))
-        self.frame_20.setMaximumSize(QtCore.QSize(65, 65))
-        self.frame_20.setStyleSheet("background-image: url(:/icons/imagens/Logo 65x65.png);")
-        self.frame_20.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_20.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_20.setObjectName("frame_20")
-        self.verticalLayout_12.addWidget(self.frame_20)
-        self.horizontalLayout_8.addWidget(self.frame_19, 0, QtCore.Qt.AlignLeft)
-        self.frame_18 = QtWidgets.QFrame(self.frame_10)
-        self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_18.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_18.setObjectName("frame_18")
-        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_18)
-        self.verticalLayout_11.setObjectName("verticalLayout_11")
-        self.label_6 = QtWidgets.QLabel(self.frame_18)
-        self.label_6.setStyleSheet("color: white;\n"
-"font: 12pt \"Montserrat\";")
-        self.label_6.setObjectName("label_6")
-        self.verticalLayout_11.addWidget(self.label_6)
-        self.label_5 = QtWidgets.QLabel(self.frame_18)
-        self.label_5.setStyleSheet("color: white;\n"
-"font: 10pt \"Montserrat\";")
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_11.addWidget(self.label_5)
-        self.horizontalLayout_8.addWidget(self.frame_18, 0, QtCore.Qt.AlignLeft)
-        self.horizontalLayout_3.addWidget(self.frame_10, 0, QtCore.Qt.AlignLeft)
-        self.frame_12 = QtWidgets.QFrame(self.frame_4)
-        self.frame_12.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_13 = QtWidgets.QFrame(self.frame_10)
+        self.frame_13.setMinimumSize(QtCore.QSize(65, 65))
+        self.frame_13.setMaximumSize(QtCore.QSize(65, 65))
+        self.frame_13.setStyleSheet("background-image: url(:/icons/imagens/Logo 65x65.png);")
+        self.frame_13.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_13.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_13.setObjectName("frame_13")
+        self.horizontalLayout_8.addWidget(self.frame_13)
+        self.frame_14 = QtWidgets.QFrame(self.frame_10)
+        self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_14.setObjectName("frame_14")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_14)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.lbl_nome_musica = QtWidgets.QLabel(self.frame_14)
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.lbl_nome_musica.setFont(font)
+        self.lbl_nome_musica.setStyleSheet("font: 12pt \"Montserrat\";\n"
+"color: white;")
+        self.lbl_nome_musica.setScaledContents(False)
+        self.lbl_nome_musica.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.lbl_nome_musica.setObjectName("lbl_nome_musica")
+        self.verticalLayout_8.addWidget(self.lbl_nome_musica)
+        self.lbl_nome_artista = QtWidgets.QLabel(self.frame_14)
+        font = QtGui.QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.lbl_nome_artista.setFont(font)
+        self.lbl_nome_artista.setStyleSheet("font: 10pt \"Montserrat\";\n"
+"color: white;")
+        self.lbl_nome_artista.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.lbl_nome_artista.setObjectName("lbl_nome_artista")
+        self.verticalLayout_8.addWidget(self.lbl_nome_artista)
+        self.horizontalLayout_8.addWidget(self.frame_14)
+        self.horizontalLayout_3.addWidget(self.frame_10)
+        self.frame_12 = QtWidgets.QFrame(self.bottom)
+        self.frame_12.setMinimumSize(QtCore.QSize(212, 84))
+        self.frame_12.setMaximumSize(QtCore.QSize(212, 84))
+        self.frame_12.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_12.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_12.setObjectName("frame_12")
-        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_12)
-        self.horizontalLayout_7.setSpacing(19)
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_12)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.frame_12)
         self.pushButton_7.setMinimumSize(QtCore.QSize(60, 60))
         self.pushButton_7.setMaximumSize(QtCore.QSize(60, 60))
         self.pushButton_7.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    \n"
-"    background-image: url(:/icons/imagens/anterior.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/anterior.png);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/anterior_hover.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/anterior_hover.png);\n"
 "}")
         self.pushButton_7.setText("")
         self.pushButton_7.setObjectName("pushButton_7")
-        self.horizontalLayout_7.addWidget(self.pushButton_7)
-        self.pushButton_9 = QtWidgets.QPushButton(self.frame_12)
-        self.pushButton_9.setMinimumSize(QtCore.QSize(60, 60))
-        self.pushButton_9.setMaximumSize(QtCore.QSize(60, 60))
-        self.pushButton_9.setSizeIncrement(QtCore.QSize(0, 0))
-        self.pushButton_9.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    background-image: url(:/icons/imagens/toque.png);\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/toque_hover.png);\n"
-"}")
-        self.pushButton_9.setText("")
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.horizontalLayout_7.addWidget(self.pushButton_9)
-        self.pushButton_8 = QtWidgets.QPushButton(self.frame_12)
-        self.pushButton_8.setMinimumSize(QtCore.QSize(60, 60))
-        self.pushButton_8.setMaximumSize(QtCore.QSize(60, 60))
-        self.pushButton_8.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    background-image: url(:/icons/imagens/proximo.png);\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/proximo_hover.png);\n"
-"}")
-        self.pushButton_8.setText("")
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.horizontalLayout_7.addWidget(self.pushButton_8)
-        self.horizontalLayout_3.addWidget(self.frame_12, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.frame_11 = QtWidgets.QFrame(self.frame_4)
-        self.frame_11.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_11.setObjectName("frame_11")
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_11)
-        self.horizontalLayout_6.setContentsMargins(0, 0, 30, 0)
-        self.horizontalLayout_6.setSpacing(10)
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.pushButton_6 = QtWidgets.QPushButton(self.frame_11)
-        self.pushButton_6.setMinimumSize(QtCore.QSize(25, 25))
-        self.pushButton_6.setMaximumSize(QtCore.QSize(25, 25))
-        self.pushButton_6.setSizeIncrement(QtCore.QSize(0, 0))
+        self.horizontalLayout_6.addWidget(self.pushButton_7)
+        self.pushButton_6 = QtWidgets.QPushButton(self.frame_12)
+        self.pushButton_6.setMinimumSize(QtCore.QSize(60, 60))
+        self.pushButton_6.setMaximumSize(QtCore.QSize(60, 60))
         self.pushButton_6.setStyleSheet("QPushButton {\n"
-"    border: 0px solid;\n"
-"    outline: 0;\n"
-"    background-image: url(:/icons/imagens/volume.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/toque.png);\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-image: url(:/icons/imagens/volume_hover.png);\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/toque_hover.png);\n"
 "}")
         self.pushButton_6.setText("")
         self.pushButton_6.setObjectName("pushButton_6")
         self.horizontalLayout_6.addWidget(self.pushButton_6)
+        self.pushButton_8 = QtWidgets.QPushButton(self.frame_12)
+        self.pushButton_8.setMinimumSize(QtCore.QSize(60, 60))
+        self.pushButton_8.setMaximumSize(QtCore.QSize(60, 60))
+        self.pushButton_8.setStyleSheet("QPushButton {\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/proximo.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/proximo_hover.png);\n"
+"}")
+        self.pushButton_8.setText("")
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.horizontalLayout_6.addWidget(self.pushButton_8)
+        self.horizontalLayout_3.addWidget(self.frame_12, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.frame_11 = QtWidgets.QFrame(self.bottom)
+        self.frame_11.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_11.setObjectName("frame_11")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_11)
+        self.horizontalLayout_7.setContentsMargins(-1, -1, 45, -1)
+        self.horizontalLayout_7.setSpacing(9)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.pushButton_5 = QtWidgets.QPushButton(self.frame_11)
+        self.pushButton_5.setMinimumSize(QtCore.QSize(25, 25))
+        self.pushButton_5.setMaximumSize(QtCore.QSize(25, 25))
+        self.pushButton_5.setStyleSheet("QPushButton {\n"
+"border: 0px;\n"
+"    background-image: url(:/icons/imagens/volume.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"border: 0px;\n"
+"background-image: url(:/icons/imagens/volume_hover.png);\n"
+"}")
+        self.pushButton_5.setText("")
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.horizontalLayout_7.addWidget(self.pushButton_5)
         self.volume_slider = QtWidgets.QSlider(self.frame_11)
-        self.volume_slider.setMinimumSize(QtCore.QSize(100, 0))
-        self.volume_slider.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.volume_slider.setMinimumSize(QtCore.QSize(110, 0))
         self.volume_slider.setStyleSheet("QSlider::groove:horizontal { \n"
-"    background-color:#00A9E2;\n"
+"    background-color: #00A9E2;\n"
 "    height: 10px;\n"
 "    border-radius: 4px;\n"
-"    border: 0px solid rgb #00A9E2;\n"
+"    border: 0px solid#00A9E2;\n"
 "}\n"
 "\n"
 "QSlider::handle:horizontal { \n"
-"    background-color: rgb(0, 146, 194);\n"
-"    border: 2px solid  rgb(0, 146, 194); \n"
+"    background-color: #0092C2;\n"
+"    border: 2px solid #0092C2; \n"
 "    width: 11px; \n"
 "    height: 16px;\n"
 "    margin-top: -3px; \n"
@@ -469,29 +634,42 @@ class Ui_MainWindow(object):
 "    border-radius: 7px; \n"
 "}\n"
 "")
-        self.volume_slider.setMaximum(10)
         self.volume_slider.setOrientation(QtCore.Qt.Horizontal)
         self.volume_slider.setObjectName("volume_slider")
-        self.horizontalLayout_6.addWidget(self.volume_slider)
+        self.horizontalLayout_7.addWidget(self.volume_slider)
         self.horizontalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignRight)
-        self.verticalLayout_2.addWidget(self.frame_4)
+        self.verticalLayout_2.addWidget(self.bottom)
         self.horizontalLayout.addWidget(self.right_conteiner)
         MainWindow.setCentralWidget(self.center)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ListenNow"))
-        self.label_4.setText(_translate("MainWindow", "Geovani Debastiani"))
-        self.pushButton_5.setText(_translate("MainWindow", "     Home"))
-        self.pushButton_10.setText(_translate("MainWindow", "     Add Songs"))
-        self.pushButton_11.setText(_translate("MainWindow", "     Remove Songs"))
-        self.pushButton_12.setText(_translate("MainWindow", "     Download Songs"))
-        self.label.setText(_translate("MainWindow", ""))
-        self.label_2.setText(_translate("MainWindow", "Nenhuma Música Encontrada"))
-        self.label_6.setText(_translate("MainWindow", "Música"))
-        self.label_5.setText(_translate("MainWindow", "Artista"))
+        self.lbl_nome_2.setText(_translate("MainWindow", "Geovani Debastiani"))
+        self.pushButton_9.setText(_translate("MainWindow", "   Home"))
+        self.pushButton_11.setText(_translate("MainWindow", "   Add Songs"))
+        self.pushButton_12.setText(_translate("MainWindow", "   Download"))
+        self.label.setText(_translate("MainWindow", "No Songs Found"))
+        self.label_2.setText(_translate("MainWindow", "ListenNow Downloader"))
+        self.line_link.setPlaceholderText(_translate("MainWindow", " Insert the Youtube link here... "))
+        self.btn_baixar.setText(_translate("MainWindow", "Baixar"))
+        self.listennow_downloader_2.setText(_translate("MainWindow", "Save In:"))
+        self.btn_baixar_2.setText(_translate("MainWindow", "Select"))
+        self.line_link_2.setPlaceholderText(_translate("MainWindow", " Search Music"))
+        self.lbl_nome_musica.setText(_translate("MainWindow", "Music"))
+        self.lbl_nome_artista.setText(_translate("MainWindow", "Artist"))
 from View.PY import file_RC
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
