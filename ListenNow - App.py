@@ -12,10 +12,6 @@ from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
 
-
-
-
-
 maxi = 0
 newWidth = 0
 musics = None
@@ -23,7 +19,6 @@ musics = None
 bank = sqlite3.connect('bank_music')
 
 cursor = bank.cursor()
-
 
 
 class ListenNow(QMainWindow):
@@ -41,7 +36,7 @@ class ListenNow(QMainWindow):
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
-        self.window().setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.window().setWindowFlags(Qt.FramelessWindowHint)
 
         # Top Bar
         self.ui.btn_max_min.clicked.connect(self.Maxmize)
@@ -61,6 +56,14 @@ class ListenNow(QMainWindow):
 
         # Add Songs
         self.ui.btn_add_songs.clicked.connect(self.Add_Songs)
+
+    def mousePressEvent(self, event):
+        self.oldPosition = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint(event.globalPos() - self.oldPosition)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPosition = event.globalPos()
 
     def Animation(self):
         global newWidth
@@ -123,7 +126,6 @@ class ListenNow(QMainWindow):
                 else:
                     self.PopUps('Error - Add Songs', f"Music {music} is already added to the bank!")
 
-
     def PopUps(self, title, msg):
 
         message = QMessageBox()
@@ -134,6 +136,8 @@ class ListenNow(QMainWindow):
         icon.addPixmap(QPixmap('View/QRC/Logo.ico'), QIcon.Normal, QIcon.Off)
         message.setWindowIcon(icon)
         x = message.exec_()
+
+#    def Table(self):
 
 
 
