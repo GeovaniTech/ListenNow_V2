@@ -1,49 +1,79 @@
 import sys
+import mysql.connector
+import sqlite3
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+
 from View.PY.ui_Interface import Ui_MainWindow
+from tkinter.filedialog import askdirectory, askopenfilenames
+from tkinter import Tk
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+
+
+
 
 maxi = 0
+newWidth = 0
+musics = None
+
+bank = sqlite3.connect('bank_music')
+
+cursor = bank.cursor()
 
 
-class TestAnimation(QMainWindow):
+
+class ListenNow(QMainWindow):
 
     def __init__(self):
+        global musics
+
+        # Loading Songs
+        self.Musics()
 
         QMainWindow.__init__(self)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.pushButton_4.clicked.connect(self.Animation)
-
+        # Animation Menu
+        self.ui.btn_menu.clicked.connect(self.Animation)
         self.window().setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
 
         # Top Bar
-        self.ui.pushButton.clicked.connect(self.Maxmize)
-        self.ui.pushButton_2.clicked.connect(self.Close)
-        self.ui.pushButton_3.clicked.connect(self.Minimum)
+        self.ui.btn_max_min.clicked.connect(self.Maxmize)
+        self.ui.btn_exit.clicked.connect(lambda: self.window().close())
+        self.ui.btn_min.clicked.connect(lambda: self.window().showMinimized())
 
-        self.ui.stackedWidget.setCurrentIndex(0)
+        # Home
+        if len(musics) == 0:
+            self.ui.btn_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
+            self.ui.stackedWidget.setCurrentIndex(0)
+        else:
+            self.ui.btn_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
+            self.ui.stackedWidget.setCurrentIndex(2)
+
+        # Download Screen
+        self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+
+        # Add Songs
+        self.ui.btn_add_songs.clicked.connect(self.Add_Songs)
 
     def Animation(self):
         global newWidth
         width = self.ui.slide_menu.width()
+
         print(width)
         if width == 0:
             newWidth = 273
         else:
             newWidth = 0
 
-
-        self.animation = QPropertyAnimation(self.ui.slide_menu, b"maximumWidth")
-        self.animation.setDuration(250)
+        self.animation = QPropertyAnimation(self.ui.slide_menu, b"minimumWidth")
+        self.animation.setDuration(400)
         self.animation.setStartValue(width)
         self.animation.setEndValue(newWidth)
         self.animation.setEasingCurve(QEasingCurve.InOutQuart)
@@ -58,18 +88,57 @@ class TestAnimation(QMainWindow):
         else:
             self.window().showNormal()
 
-    def Minimum(self):
-        self.window().showMinimized()
+    def Musics(self):
+        global musics
+        cursor.execute('SELECT * FROM music')
+        musics = cursor.fetchall()
 
-    def Close(self):
-        self.window().close()
+    def Add_Songs(self):
+
+        root = Tk()
+        root.withdraw()
+        root.iconbitmap('View/QRC/Logo.ico')
+
+        files = askopenfilenames()
+
+        for music in files:
+            if music[-4:] == '.mp3':
+                cursor.execute(f'SELECT nome FROM music WHERE nome = "{music}"')
+                songs = cursor.fetchall()
+
+                if len(songs) == 0:
+                    cursor.execute('SELECT MAX(id) FROM music')
+                    last_id = cursor.fetchone()
+
+                    for id_bank in last_id:
+                        if id_bank == None:
+                            id = 1
+                        else:
+                            id = int(id_bank) + 1
+
+                    cursor.execute(f'INSERT INTO music VALUES({id}, "{music}")')
+                    bank.commit()
+
+                    self.ui.stackedWidget.setCurrentIndex(2)
+                else:
+                    self.PopUps('Error - Add Songs', f"Music {music} is already added to the bank!")
+
+
+    def PopUps(self, title, msg):
+
+        message = QMessageBox()
+        message.setWindowTitle(str(title))
+        message.setText(str(msg))
+
+        icon = QIcon()
+        icon.addPixmap(QPixmap('View/QRC/Logo.ico'), QIcon.Normal, QIcon.Off)
+        message.setWindowIcon(icon)
+        x = message.exec_()
+
 
 
 if __name__ == '__main__':
-    newWidth = 0
-    # Configurando Aplicação
     app = QApplication(sys.argv)
-    window = TestAnimation()
+    window = ListenNow()
     window.show()
-
     sys.exit(app.exec_())

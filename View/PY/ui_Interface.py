@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1154, 854)
+        MainWindow.resize(1252, 854)
         MainWindow.setStyleSheet("background-color: rgb(74, 74, 74);")
         self.center = QtWidgets.QWidget(MainWindow)
         self.center.setObjectName("center")
@@ -32,7 +32,11 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.slide_menu = QtWidgets.QFrame(self.left_container)
-        self.slide_menu.setMinimumSize(QtCore.QSize(273, 0))
+#        self.slide_menu.setMinimumSize(QtCore.QSize(273, 0))
+
+        self.slide_menu.setMaximumWidth(273)
+        self.slide_menu.setMinimumWidth(0)
+        self.slide_menu.setFixedWidth(0)
         self.slide_menu.setStyleSheet("background-color: rgb(47, 47, 47);")
         self.slide_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.slide_menu.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -63,8 +67,8 @@ class Ui_MainWindow(object):
         self.lbl_nome_2.setStyleSheet("font: 12pt \"Montserrat\";\n"
 "color: white;")
         self.lbl_nome_2.setObjectName("lbl_nome_2")
-        self.verticalLayout_5.addWidget(self.lbl_nome_2)
-        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_5.addWidget(self.lbl_nome_2, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_3.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
         self.frame_4 = QtWidgets.QFrame(self.slide_menu)
         self.frame_4.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -73,10 +77,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_11.setSpacing(0)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
-        self.pushButton_9 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_9.setMinimumSize(QtCore.QSize(0, 40))
-        self.pushButton_9.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.pushButton_9.setStyleSheet("QPushButton {\n"
+        self.btn_home = QtWidgets.QPushButton(self.frame_4)
+        self.btn_home.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_home.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.btn_home.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "color: white;\n"
 "font: 11pt \"Century Gothic\";\n"
@@ -89,14 +93,14 @@ class Ui_MainWindow(object):
 "}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/imagens/casa_25x25.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_9.setIcon(icon)
-        self.pushButton_9.setIconSize(QtCore.QSize(30, 30))
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.verticalLayout_11.addWidget(self.pushButton_9)
-        self.pushButton_11 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_11.setMinimumSize(QtCore.QSize(0, 40))
-        self.pushButton_11.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.pushButton_11.setStyleSheet("QPushButton {\n"
+        self.btn_home.setIcon(icon)
+        self.btn_home.setIconSize(QtCore.QSize(30, 30))
+        self.btn_home.setObjectName("btn_home")
+        self.verticalLayout_11.addWidget(self.btn_home)
+        self.btn_add_songs = QtWidgets.QPushButton(self.frame_4)
+        self.btn_add_songs.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_add_songs.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.btn_add_songs.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "color: white;\n"
 "font: 11pt \"Century Gothic\";\n"
@@ -108,15 +112,15 @@ class Ui_MainWindow(object):
 "    background-color: rgb(77, 77, 77);\n"
 "}")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../QRC/adicionar-botao_br.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_11.setIcon(icon1)
-        self.pushButton_11.setIconSize(QtCore.QSize(30, 30))
-        self.pushButton_11.setObjectName("pushButton_11")
-        self.verticalLayout_11.addWidget(self.pushButton_11)
-        self.pushButton_12 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_12.setMinimumSize(QtCore.QSize(0, 40))
-        self.pushButton_12.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.pushButton_12.setStyleSheet("QPushButton {\n"
+        icon1.addPixmap(QtGui.QPixmap(":/icons/imagens/adicionar-botao_br.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_add_songs.setIcon(icon1)
+        self.btn_add_songs.setIconSize(QtCore.QSize(30, 30))
+        self.btn_add_songs.setObjectName("btn_add_songs")
+        self.verticalLayout_11.addWidget(self.btn_add_songs)
+        self.btn_screen_download = QtWidgets.QPushButton(self.frame_4)
+        self.btn_screen_download.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_screen_download.setMaximumSize(QtCore.QSize(16777215, 40))
+        self.btn_screen_download.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "color: white;\n"
 "font: 11pt \"Century Gothic\";\n"
@@ -129,10 +133,10 @@ class Ui_MainWindow(object):
 "}")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icons/imagens/download_25x25.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_12.setIcon(icon2)
-        self.pushButton_12.setIconSize(QtCore.QSize(30, 30))
-        self.pushButton_12.setObjectName("pushButton_12")
-        self.verticalLayout_11.addWidget(self.pushButton_12)
+        self.btn_screen_download.setIcon(icon2)
+        self.btn_screen_download.setIconSize(QtCore.QSize(30, 30))
+        self.btn_screen_download.setObjectName("btn_screen_download")
+        self.verticalLayout_11.addWidget(self.btn_screen_download)
         self.verticalLayout_3.addWidget(self.frame_4, 0, QtCore.Qt.AlignTop)
         self.frame = QtWidgets.QFrame(self.slide_menu)
         self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -164,10 +168,10 @@ class Ui_MainWindow(object):
         self.frame_7.setObjectName("frame_7")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_7)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.pushButton_4 = QtWidgets.QPushButton(self.frame_7)
-        self.pushButton_4.setMinimumSize(QtCore.QSize(35, 35))
-        self.pushButton_4.setMaximumSize(QtCore.QSize(35, 35))
-        self.pushButton_4.setStyleSheet("QPushButton {\n"
+        self.btn_menu = QtWidgets.QPushButton(self.frame_7)
+        self.btn_menu.setMinimumSize(QtCore.QSize(35, 35))
+        self.btn_menu.setMaximumSize(QtCore.QSize(35, 35))
+        self.btn_menu.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "    background-image: url(:/icons/imagens/menu.png);\n"
 "}\n"
@@ -176,9 +180,9 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/menu_hover.png);\n"
 "}")
-        self.pushButton_4.setText("")
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.horizontalLayout_5.addWidget(self.pushButton_4)
+        self.btn_menu.setText("")
+        self.btn_menu.setObjectName("btn_menu")
+        self.horizontalLayout_5.addWidget(self.btn_menu)
         self.horizontalLayout_2.addWidget(self.frame_7, 0, QtCore.Qt.AlignLeft)
         self.frame_9 = QtWidgets.QFrame(self.top)
         self.frame_9.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -191,10 +195,10 @@ class Ui_MainWindow(object):
         self.frame_8.setObjectName("frame_8")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.frame_8)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame_8)
-        self.pushButton_3.setMinimumSize(QtCore.QSize(30, 30))
-        self.pushButton_3.setMaximumSize(QtCore.QSize(30, 30))
-        self.pushButton_3.setStyleSheet("QPushButton {\n"
+        self.btn_min = QtWidgets.QPushButton(self.frame_8)
+        self.btn_min.setMinimumSize(QtCore.QSize(30, 30))
+        self.btn_min.setMaximumSize(QtCore.QSize(30, 30))
+        self.btn_min.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/minus.png);\n"
 "}\n"
@@ -203,13 +207,13 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/minus_hover.png);\n"
 "}")
-        self.pushButton_3.setText("")
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.horizontalLayout_4.addWidget(self.pushButton_3)
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_8)
-        self.pushButton_2.setMinimumSize(QtCore.QSize(25, 25))
-        self.pushButton_2.setMaximumSize(QtCore.QSize(25, 25))
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
+        self.btn_min.setText("")
+        self.btn_min.setObjectName("btn_min")
+        self.horizontalLayout_4.addWidget(self.btn_min)
+        self.btn_max_min = QtWidgets.QPushButton(self.frame_8)
+        self.btn_max_min.setMinimumSize(QtCore.QSize(25, 25))
+        self.btn_max_min.setMaximumSize(QtCore.QSize(25, 25))
+        self.btn_max_min.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "    background-image: url(:/icons/imagens/max.png);\n"
 "}\n"
@@ -218,13 +222,13 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/max_hover.png);\n"
 "}")
-        self.pushButton_2.setText("")
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout_4.addWidget(self.pushButton_2)
-        self.pushButton = QtWidgets.QPushButton(self.frame_8)
-        self.pushButton.setMinimumSize(QtCore.QSize(30, 30))
-        self.pushButton.setMaximumSize(QtCore.QSize(30, 30))
-        self.pushButton.setStyleSheet("QPushButton {\n"
+        self.btn_max_min.setText("")
+        self.btn_max_min.setObjectName("btn_max_min")
+        self.horizontalLayout_4.addWidget(self.btn_max_min)
+        self.btn_exit = QtWidgets.QPushButton(self.frame_8)
+        self.btn_exit.setMinimumSize(QtCore.QSize(30, 30))
+        self.btn_exit.setMaximumSize(QtCore.QSize(30, 30))
+        self.btn_exit.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/x.png);\n"
 "}\n"
@@ -233,9 +237,9 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/x_hover.png);\n"
 "}")
-        self.pushButton.setText("")
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_4.addWidget(self.pushButton)
+        self.btn_exit.setText("")
+        self.btn_exit.setObjectName("btn_exit")
+        self.horizontalLayout_4.addWidget(self.btn_exit)
         self.horizontalLayout_2.addWidget(self.frame_8, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.top, 0, QtCore.Qt.AlignTop)
         self.frame_3 = QtWidgets.QFrame(self.right_conteiner)
@@ -248,13 +252,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.stackedWidget = QtWidgets.QStackedWidget(self.frame_3)
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.page)
+        self.widget = QtWidgets.QWidget()
+        self.widget.setObjectName("widget")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.frame_5 = QtWidgets.QFrame(self.page)
+        self.frame_5 = QtWidgets.QFrame(self.widget)
         self.frame_5.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_5.setObjectName("frame_5")
@@ -278,7 +282,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.verticalLayout_7.addWidget(self.label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.verticalLayout_6.addWidget(self.frame_5, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.stackedWidget.addWidget(self.page)
+        self.stackedWidget.addWidget(self.widget)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.page_2)
@@ -311,34 +315,34 @@ class Ui_MainWindow(object):
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.frame_16)
         self.horizontalLayout_10.setSpacing(0)
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.line_link = QtWidgets.QLineEdit(self.frame_16)
-        self.line_link.setMinimumSize(QtCore.QSize(750, 61))
-        self.line_link.setMaximumSize(QtCore.QSize(779, 61))
+        self.link_youtube = QtWidgets.QLineEdit(self.frame_16)
+        self.link_youtube.setMinimumSize(QtCore.QSize(750, 61))
+        self.link_youtube.setMaximumSize(QtCore.QSize(779, 61))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(12)
-        self.line_link.setFont(font)
-        self.line_link.setStyleSheet("border: 2px solid #00A9E2;\n"
+        self.link_youtube.setFont(font)
+        self.link_youtube.setStyleSheet("border: 2px solid #00A9E2;\n"
 "color: white;")
-        self.line_link.setInputMask("")
-        self.line_link.setText("")
-        self.line_link.setFrame(True)
-        self.line_link.setCursorPosition(0)
-        self.line_link.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
-        self.line_link.setClearButtonEnabled(True)
-        self.line_link.setObjectName("line_link")
-        self.horizontalLayout_10.addWidget(self.line_link)
-        self.btn_baixar = QtWidgets.QPushButton(self.frame_16)
-        self.btn_baixar.setMinimumSize(QtCore.QSize(91, 61))
-        self.btn_baixar.setMaximumSize(QtCore.QSize(91, 61))
+        self.link_youtube.setInputMask("")
+        self.link_youtube.setText("")
+        self.link_youtube.setFrame(True)
+        self.link_youtube.setCursorPosition(0)
+        self.link_youtube.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
+        self.link_youtube.setClearButtonEnabled(True)
+        self.link_youtube.setObjectName("link_youtube")
+        self.horizontalLayout_10.addWidget(self.link_youtube)
+        self.btn_download = QtWidgets.QPushButton(self.frame_16)
+        self.btn_download.setMinimumSize(QtCore.QSize(91, 61))
+        self.btn_download.setMaximumSize(QtCore.QSize(91, 61))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(11)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.btn_baixar.setFont(font)
-        self.btn_baixar.setStyleSheet("QPushButton {\n"
+        self.btn_download.setFont(font)
+        self.btn_download.setStyleSheet("QPushButton {\n"
 "    border: 0px solid #00A9E2;\n"
 "    color: white;\n"
 "    background-color: #00A9E2;\n"
@@ -352,8 +356,8 @@ class Ui_MainWindow(object):
 "    \n"
 "    background-color: rgb(0, 183, 244)\n"
 "}")
-        self.btn_baixar.setObjectName("btn_baixar")
-        self.horizontalLayout_10.addWidget(self.btn_baixar)
+        self.btn_download.setObjectName("btn_download")
+        self.horizontalLayout_10.addWidget(self.btn_download)
         self.verticalLayout_10.addWidget(self.frame_16)
         self.frame_18 = QtWidgets.QFrame(self.frame_15)
         self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -363,22 +367,22 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setContentsMargins(-1, 16, -1, -1)
         self.horizontalLayout_9.setSpacing(12)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.listennow_downloader_2 = QtWidgets.QLabel(self.frame_18)
-        self.listennow_downloader_2.setStyleSheet("font: 16pt \"Century Gothic\";\n"
+        self.lbl_save_in = QtWidgets.QLabel(self.frame_18)
+        self.lbl_save_in.setStyleSheet("font: 16pt \"Century Gothic\";\n"
 "color: white;")
-        self.listennow_downloader_2.setObjectName("listennow_downloader_2")
-        self.horizontalLayout_9.addWidget(self.listennow_downloader_2)
-        self.btn_baixar_2 = QtWidgets.QPushButton(self.frame_18)
-        self.btn_baixar_2.setMinimumSize(QtCore.QSize(141, 35))
-        self.btn_baixar_2.setMaximumSize(QtCore.QSize(141, 35))
+        self.lbl_save_in.setObjectName("lbl_save_in")
+        self.horizontalLayout_9.addWidget(self.lbl_save_in)
+        self.btn_select = QtWidgets.QPushButton(self.frame_18)
+        self.btn_select.setMinimumSize(QtCore.QSize(141, 35))
+        self.btn_select.setMaximumSize(QtCore.QSize(141, 35))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(11)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.btn_baixar_2.setFont(font)
-        self.btn_baixar_2.setStyleSheet("QPushButton {\n"
+        self.btn_select.setFont(font)
+        self.btn_select.setStyleSheet("QPushButton {\n"
 "    border: 0px solid #00A9E2;\n"
 "    color: white;\n"
 "    background-color: #00A9E2;\n"
@@ -391,8 +395,8 @@ class Ui_MainWindow(object):
 "    \n"
 "    background-color: rgb(0, 183, 244)\n"
 "}")
-        self.btn_baixar_2.setObjectName("btn_baixar_2")
-        self.horizontalLayout_9.addWidget(self.btn_baixar_2)
+        self.btn_select.setObjectName("btn_select")
+        self.horizontalLayout_9.addWidget(self.btn_select)
         self.verticalLayout_10.addWidget(self.frame_18, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_9.addWidget(self.frame_15, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.stackedWidget.addWidget(self.page_2)
@@ -416,34 +420,34 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_12.setSpacing(0)
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        self.line_link_2 = QtWidgets.QLineEdit(self.frame_20)
-        self.line_link_2.setMinimumSize(QtCore.QSize(750, 61))
-        self.line_link_2.setMaximumSize(QtCore.QSize(16777215, 61))
+        self.search_music_home = QtWidgets.QLineEdit(self.frame_20)
+        self.search_music_home.setMinimumSize(QtCore.QSize(750, 61))
+        self.search_music_home.setMaximumSize(QtCore.QSize(16777215, 61))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(12)
-        self.line_link_2.setFont(font)
-        self.line_link_2.setStyleSheet("border: 2px solid #00A9E2;\n"
+        self.search_music_home.setFont(font)
+        self.search_music_home.setStyleSheet("border: 2px solid #00A9E2;\n"
 "color: white;")
-        self.line_link_2.setInputMask("")
-        self.line_link_2.setText("")
-        self.line_link_2.setFrame(True)
-        self.line_link_2.setCursorPosition(0)
-        self.line_link_2.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
-        self.line_link_2.setClearButtonEnabled(True)
-        self.line_link_2.setObjectName("line_link_2")
-        self.horizontalLayout_12.addWidget(self.line_link_2)
-        self.btn_baixar_3 = QtWidgets.QPushButton(self.frame_20)
-        self.btn_baixar_3.setMinimumSize(QtCore.QSize(91, 61))
-        self.btn_baixar_3.setMaximumSize(QtCore.QSize(91, 61))
+        self.search_music_home.setInputMask("")
+        self.search_music_home.setText("")
+        self.search_music_home.setFrame(True)
+        self.search_music_home.setCursorPosition(0)
+        self.search_music_home.setCursorMoveStyle(QtCore.Qt.LogicalMoveStyle)
+        self.search_music_home.setClearButtonEnabled(True)
+        self.search_music_home.setObjectName("search_music_home")
+        self.horizontalLayout_12.addWidget(self.search_music_home)
+        self.btn_search_home = QtWidgets.QPushButton(self.frame_20)
+        self.btn_search_home.setMinimumSize(QtCore.QSize(91, 61))
+        self.btn_search_home.setMaximumSize(QtCore.QSize(91, 61))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(11)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.btn_baixar_3.setFont(font)
-        self.btn_baixar_3.setStyleSheet("QPushButton {\n"
+        self.btn_search_home.setFont(font)
+        self.btn_search_home.setStyleSheet("QPushButton {\n"
 "    border: 0px solid #00A9E2;\n"
 "    color: white;\n"
 "    background-color: #00A9E2;\n"
@@ -457,20 +461,20 @@ class Ui_MainWindow(object):
 "    \n"
 "    background-color: rgb(0, 183, 244)\n"
 "}")
-        self.btn_baixar_3.setText("")
+        self.btn_search_home.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../QRC/search_hover.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_baixar_3.setIcon(icon3)
-        self.btn_baixar_3.setIconSize(QtCore.QSize(60, 60))
-        self.btn_baixar_3.setObjectName("btn_baixar_3")
-        self.horizontalLayout_12.addWidget(self.btn_baixar_3)
+        icon3.addPixmap(QtGui.QPixmap(":/icons/imagens/search_hover.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_search_home.setIcon(icon3)
+        self.btn_search_home.setIconSize(QtCore.QSize(60, 60))
+        self.btn_search_home.setObjectName("btn_search_home")
+        self.horizontalLayout_12.addWidget(self.btn_search_home)
         self.verticalLayout_13.addWidget(self.frame_20)
-        self.tableView = QtWidgets.QTableView(self.frame_19)
-        self.tableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.tableView.setShowGrid(False)
-        self.tableView.setObjectName("tableView")
-        self.verticalLayout_13.addWidget(self.tableView)
+        self.table_home = QtWidgets.QTableView(self.frame_19)
+        self.table_home.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table_home.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table_home.setShowGrid(False)
+        self.table_home.setObjectName("table_home")
+        self.verticalLayout_13.addWidget(self.table_home)
         self.verticalLayout_12.addWidget(self.frame_19)
         self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_4.addWidget(self.stackedWidget)
@@ -490,47 +494,47 @@ class Ui_MainWindow(object):
         self.frame_10.setObjectName("frame_10")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.frame_10)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.frame_13 = QtWidgets.QFrame(self.frame_10)
-        self.frame_13.setMinimumSize(QtCore.QSize(65, 65))
-        self.frame_13.setMaximumSize(QtCore.QSize(65, 65))
-        self.frame_13.setStyleSheet("background-image: url(:/icons/imagens/Logo 65x65.png);")
-        self.frame_13.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_13.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_13.setObjectName("frame_13")
-        self.horizontalLayout_8.addWidget(self.frame_13)
+        self.logo_bar = QtWidgets.QFrame(self.frame_10)
+        self.logo_bar.setMinimumSize(QtCore.QSize(65, 65))
+        self.logo_bar.setMaximumSize(QtCore.QSize(65, 65))
+        self.logo_bar.setStyleSheet("background-image: url(:/icons/imagens/Logo 65x65.png);")
+        self.logo_bar.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.logo_bar.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.logo_bar.setObjectName("logo_bar")
+        self.horizontalLayout_8.addWidget(self.logo_bar)
         self.frame_14 = QtWidgets.QFrame(self.frame_10)
         self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_14.setObjectName("frame_14")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_14)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
-        self.lbl_nome_musica = QtWidgets.QLabel(self.frame_14)
+        self.lbl_name_Music = QtWidgets.QLabel(self.frame_14)
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.lbl_nome_musica.setFont(font)
-        self.lbl_nome_musica.setStyleSheet("font: 12pt \"Montserrat\";\n"
+        self.lbl_name_Music.setFont(font)
+        self.lbl_name_Music.setStyleSheet("font: 12pt \"Montserrat\";\n"
 "color: white;")
-        self.lbl_nome_musica.setScaledContents(False)
-        self.lbl_nome_musica.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        self.lbl_nome_musica.setObjectName("lbl_nome_musica")
-        self.verticalLayout_8.addWidget(self.lbl_nome_musica)
-        self.lbl_nome_artista = QtWidgets.QLabel(self.frame_14)
+        self.lbl_name_Music.setScaledContents(False)
+        self.lbl_name_Music.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.lbl_name_Music.setObjectName("lbl_name_Music")
+        self.verticalLayout_8.addWidget(self.lbl_name_Music)
+        self.lbl_name_Artist = QtWidgets.QLabel(self.frame_14)
         font = QtGui.QFont()
         font.setFamily("Montserrat")
         font.setPointSize(10)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.lbl_nome_artista.setFont(font)
-        self.lbl_nome_artista.setStyleSheet("font: 10pt \"Montserrat\";\n"
+        self.lbl_name_Artist.setFont(font)
+        self.lbl_name_Artist.setStyleSheet("font: 10pt \"Montserrat\";\n"
 "color: white;")
-        self.lbl_nome_artista.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        self.lbl_nome_artista.setObjectName("lbl_nome_artista")
-        self.verticalLayout_8.addWidget(self.lbl_nome_artista)
+        self.lbl_name_Artist.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.lbl_name_Artist.setObjectName("lbl_name_Artist")
+        self.verticalLayout_8.addWidget(self.lbl_name_Artist)
         self.horizontalLayout_8.addWidget(self.frame_14)
         self.horizontalLayout_3.addWidget(self.frame_10)
         self.frame_12 = QtWidgets.QFrame(self.bottom)
@@ -541,10 +545,10 @@ class Ui_MainWindow(object):
         self.frame_12.setObjectName("frame_12")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_12)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.pushButton_7 = QtWidgets.QPushButton(self.frame_12)
-        self.pushButton_7.setMinimumSize(QtCore.QSize(60, 60))
-        self.pushButton_7.setMaximumSize(QtCore.QSize(60, 60))
-        self.pushButton_7.setStyleSheet("QPushButton {\n"
+        self.btn_return = QtWidgets.QPushButton(self.frame_12)
+        self.btn_return.setMinimumSize(QtCore.QSize(60, 60))
+        self.btn_return.setMaximumSize(QtCore.QSize(60, 60))
+        self.btn_return.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/anterior.png);\n"
 "}\n"
@@ -553,13 +557,13 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/anterior_hover.png);\n"
 "}")
-        self.pushButton_7.setText("")
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.horizontalLayout_6.addWidget(self.pushButton_7)
-        self.pushButton_6 = QtWidgets.QPushButton(self.frame_12)
-        self.pushButton_6.setMinimumSize(QtCore.QSize(60, 60))
-        self.pushButton_6.setMaximumSize(QtCore.QSize(60, 60))
-        self.pushButton_6.setStyleSheet("QPushButton {\n"
+        self.btn_return.setText("")
+        self.btn_return.setObjectName("btn_return")
+        self.horizontalLayout_6.addWidget(self.btn_return)
+        self.btn_play = QtWidgets.QPushButton(self.frame_12)
+        self.btn_play.setMinimumSize(QtCore.QSize(60, 60))
+        self.btn_play.setMaximumSize(QtCore.QSize(60, 60))
+        self.btn_play.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/toque.png);\n"
 "}\n"
@@ -568,13 +572,13 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/toque_hover.png);\n"
 "}")
-        self.pushButton_6.setText("")
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.horizontalLayout_6.addWidget(self.pushButton_6)
-        self.pushButton_8 = QtWidgets.QPushButton(self.frame_12)
-        self.pushButton_8.setMinimumSize(QtCore.QSize(60, 60))
-        self.pushButton_8.setMaximumSize(QtCore.QSize(60, 60))
-        self.pushButton_8.setStyleSheet("QPushButton {\n"
+        self.btn_play.setText("")
+        self.btn_play.setObjectName("btn_play")
+        self.horizontalLayout_6.addWidget(self.btn_play)
+        self.btn_next = QtWidgets.QPushButton(self.frame_12)
+        self.btn_next.setMinimumSize(QtCore.QSize(60, 60))
+        self.btn_next.setMaximumSize(QtCore.QSize(60, 60))
+        self.btn_next.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/proximo.png);\n"
 "}\n"
@@ -583,9 +587,9 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/proximo_hover.png);\n"
 "}")
-        self.pushButton_8.setText("")
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.horizontalLayout_6.addWidget(self.pushButton_8)
+        self.btn_next.setText("")
+        self.btn_next.setObjectName("btn_next")
+        self.horizontalLayout_6.addWidget(self.btn_next)
         self.horizontalLayout_3.addWidget(self.frame_12, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.frame_11 = QtWidgets.QFrame(self.bottom)
         self.frame_11.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -595,10 +599,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setContentsMargins(-1, -1, 45, -1)
         self.horizontalLayout_7.setSpacing(9)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.pushButton_5 = QtWidgets.QPushButton(self.frame_11)
-        self.pushButton_5.setMinimumSize(QtCore.QSize(25, 25))
-        self.pushButton_5.setMaximumSize(QtCore.QSize(25, 25))
-        self.pushButton_5.setStyleSheet("QPushButton {\n"
+        self.btn_sound = QtWidgets.QPushButton(self.frame_11)
+        self.btn_sound.setMinimumSize(QtCore.QSize(25, 25))
+        self.btn_sound.setMaximumSize(QtCore.QSize(25, 25))
+        self.btn_sound.setStyleSheet("QPushButton {\n"
 "border: 0px;\n"
 "    background-image: url(:/icons/imagens/volume.png);\n"
 "}\n"
@@ -607,12 +611,12 @@ class Ui_MainWindow(object):
 "border: 0px;\n"
 "background-image: url(:/icons/imagens/volume_hover.png);\n"
 "}")
-        self.pushButton_5.setText("")
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.horizontalLayout_7.addWidget(self.pushButton_5)
-        self.volume_slider = QtWidgets.QSlider(self.frame_11)
-        self.volume_slider.setMinimumSize(QtCore.QSize(110, 0))
-        self.volume_slider.setStyleSheet("QSlider::groove:horizontal { \n"
+        self.btn_sound.setText("")
+        self.btn_sound.setObjectName("btn_sound")
+        self.horizontalLayout_7.addWidget(self.btn_sound)
+        self.som_slider = QtWidgets.QSlider(self.frame_11)
+        self.som_slider.setMinimumSize(QtCore.QSize(110, 0))
+        self.som_slider.setStyleSheet("QSlider::groove:horizontal { \n"
 "    background-color: #00A9E2;\n"
 "    height: 10px;\n"
 "    border-radius: 4px;\n"
@@ -634,9 +638,9 @@ class Ui_MainWindow(object):
 "    border-radius: 7px; \n"
 "}\n"
 "")
-        self.volume_slider.setOrientation(QtCore.Qt.Horizontal)
-        self.volume_slider.setObjectName("volume_slider")
-        self.horizontalLayout_7.addWidget(self.volume_slider)
+        self.som_slider.setOrientation(QtCore.Qt.Horizontal)
+        self.som_slider.setObjectName("som_slider")
+        self.horizontalLayout_7.addWidget(self.som_slider)
         self.horizontalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.bottom)
         self.horizontalLayout.addWidget(self.right_conteiner)
@@ -650,18 +654,18 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ListenNow"))
         self.lbl_nome_2.setText(_translate("MainWindow", "Geovani Debastiani"))
-        self.pushButton_9.setText(_translate("MainWindow", "   Home"))
-        self.pushButton_11.setText(_translate("MainWindow", "   Add Songs"))
-        self.pushButton_12.setText(_translate("MainWindow", "   Download"))
+        self.btn_home.setText(_translate("MainWindow", "   Home"))
+        self.btn_add_songs.setText(_translate("MainWindow", "   Add Songs"))
+        self.btn_screen_download.setText(_translate("MainWindow", "   Download"))
         self.label.setText(_translate("MainWindow", "No Songs Found"))
         self.label_2.setText(_translate("MainWindow", "ListenNow Downloader"))
-        self.line_link.setPlaceholderText(_translate("MainWindow", " Insert the Youtube link here... "))
-        self.btn_baixar.setText(_translate("MainWindow", "Baixar"))
-        self.listennow_downloader_2.setText(_translate("MainWindow", "Save In:"))
-        self.btn_baixar_2.setText(_translate("MainWindow", "Select"))
-        self.line_link_2.setPlaceholderText(_translate("MainWindow", " Search Music"))
-        self.lbl_nome_musica.setText(_translate("MainWindow", "Music"))
-        self.lbl_nome_artista.setText(_translate("MainWindow", "Artist"))
+        self.link_youtube.setPlaceholderText(_translate("MainWindow", " Insert the Youtube link here... "))
+        self.btn_download.setText(_translate("MainWindow", "Baixar"))
+        self.lbl_save_in.setText(_translate("MainWindow", "Save In:"))
+        self.btn_select.setText(_translate("MainWindow", "Select"))
+        self.search_music_home.setPlaceholderText(_translate("MainWindow", " Search Music"))
+        self.lbl_name_Music.setText(_translate("MainWindow", "Music"))
+        self.lbl_name_Artist.setText(_translate("MainWindow", "Artist"))
 from View.PY import file_RC
 
 
