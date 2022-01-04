@@ -1021,17 +1021,7 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTableView" name="table_home">
-                   <property name="editTriggers">
-                    <set>QAbstractItemView::NoEditTriggers</set>
-                   </property>
-                   <property name="selectionBehavior">
-                    <enum>QAbstractItemView::SelectRows</enum>
-                   </property>
-                   <property name="showGrid">
-                    <bool>false</bool>
-                   </property>
-                  </widget>
+                  <widget class="QTableWidget" name="tableWidget"/>
                  </item>
                 </layout>
                </widget>

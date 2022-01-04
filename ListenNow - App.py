@@ -1,6 +1,7 @@
+import os.path
 import sys
-import mysql.connector
 import sqlite3
+import eyed3.utils
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -12,14 +13,14 @@ from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
 
-maxi = 0
 newWidth = 0
 musics = None
 
 bank = sqlite3.connect('bank_music')
 
 cursor = bank.cursor()
-
+cursor.execute('DELETE FROM music')
+bank.commit()
 
 class ListenNow(QMainWindow):
 
@@ -57,6 +58,9 @@ class ListenNow(QMainWindow):
         # Add Songs
         self.ui.btn_add_songs.clicked.connect(self.Add_Songs)
 
+        # Loading Table
+        self.Table()
+
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
 
@@ -83,17 +87,14 @@ class ListenNow(QMainWindow):
         self.animation.start()
 
     def Maxmize(self):
-        global maxi
-        maxi += 1
-
-        if maxi % 2 == 1:
-            self.window().showMaximized()
-        else:
+        if self.window().isMaximized() == True:
             self.window().showNormal()
+        else:
+            self.window().showMaximized()
 
     def Musics(self):
         global musics
-        cursor.execute('SELECT * FROM music')
+        cursor.execute('SELECT * FROM music ORDER BY Id ASC')
         musics = cursor.fetchall()
 
     def Add_Songs(self):
@@ -107,9 +108,9 @@ class ListenNow(QMainWindow):
         for music in files:
             if music[-4:] == '.mp3':
                 cursor.execute(f'SELECT nome FROM music WHERE nome = "{music}"')
-                songs = cursor.fetchall()
+                songs = cursor.fetchone()
 
-                if len(songs) == 0:
+                if songs == None:
                     cursor.execute('SELECT MAX(id) FROM music')
                     last_id = cursor.fetchone()
 
@@ -119,12 +120,16 @@ class ListenNow(QMainWindow):
                         else:
                             id = int(id_bank) + 1
 
-                    cursor.execute(f'INSERT INTO music VALUES({id}, "{music}")')
+                    print(music)
+                    cursor.execute(f'INSERT INTO music VALUES({id}, "{str(music)}")')
                     bank.commit()
 
+                    self.Musics()
+                    self.UpdateTable()
                     self.ui.stackedWidget.setCurrentIndex(2)
+
                 else:
-                    self.PopUps('Error - Add Songs', f"Music {music} is already added to the bank!")
+                    self.PopUps('Error - Add Songs', f"Music {os.path.basename(music[:-4])} is already added to the bank!")
 
     def PopUps(self, title, msg):
 
@@ -137,8 +142,46 @@ class ListenNow(QMainWindow):
         message.setWindowIcon(icon)
         x = message.exec_()
 
-#    def Table(self):
+    def Table(self):
+        global musics
 
+        # Inserindo as Colunas na tabela
+        self.ui.tableWidget.insertColumn(0)
+        self.ui.tableWidget.insertColumn(0)
+
+        columns = ['ID', 'Name']
+        self.ui.tableWidget.setHorizontalHeaderLabels(columns)
+        self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.tableWidget.verticalHeader().setVisible(False)
+
+        self.UpdateTable()
+
+    def UpdateTable(self):
+        global musics
+
+        self.ui.tableWidget.setRowCount(len(musics))
+
+        row = 0
+
+        for music in musics:
+            # Tratando erro dos metadados
+            eyed3.log.setLevel("ERROR")
+
+            try:
+                audiofile = eyed3.load(music[1])
+
+                if audiofile != None:
+                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                    row += 1
+
+                else:
+                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
+                    row += 1
+
+            except IOError:
+                ...
 
 
 if __name__ == '__main__':
