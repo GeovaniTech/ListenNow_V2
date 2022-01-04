@@ -44,13 +44,9 @@ class ListenNow(QMainWindow):
         self.ui.btn_exit.clicked.connect(lambda: self.window().close())
         self.ui.btn_min.clicked.connect(lambda: self.window().showMinimized())
 
-        # Home
-        if len(musics) == 0:
-            self.ui.btn_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
-            self.ui.stackedWidget.setCurrentIndex(0)
-        else:
-            self.ui.btn_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
-            self.ui.stackedWidget.setCurrentIndex(2)
+        # Home Screen
+        self.Home()
+        self.ui.btn_home.clicked.connect(self.Home)
 
         # Download Screen
         self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
@@ -176,12 +172,24 @@ class ListenNow(QMainWindow):
                     row += 1
 
                 else:
-                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
-                    row += 1
+                    try:
+
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted')
+
+
 
             except IOError:
                 ...
+
+    def Home(self):
+        if len(musics) > 0:
+            self.ui.stackedWidget.setCurrentIndex(2)
+        else:
+            self.ui.stackedWidget.setCurrentIndex(0)
 
 
 if __name__ == '__main__':
