@@ -8,7 +8,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-
+from PyQt5 import QtWidgets
 from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
@@ -144,12 +144,14 @@ class ListenNow(QMainWindow):
 
         # Inserindo as Colunas na tabela
         self.ui.tableWidget.insertColumn(0)
-        self.ui.tableWidget.insertColumn(0)
+        self.ui.tableWidget.setColumnWidth(0, 250)
+        header = self.ui.tableWidget.horizontalHeader()
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
 
-        columns = ['ID', 'Name']
+        columns = ['Name']
         self.ui.tableWidget.setHorizontalHeaderLabels(columns)
         self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.ui.tableWidget.verticalHeader().setVisible(False)
+
 
         self.UpdateTable()
 
@@ -168,15 +170,12 @@ class ListenNow(QMainWindow):
                 audiofile = eyed3.load(music[1])
 
                 if audiofile != None:
-                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(os.path.basename(music[1])))
                     row += 1
 
                 else:
                     try:
-
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(audiofile.tag.title)))
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
