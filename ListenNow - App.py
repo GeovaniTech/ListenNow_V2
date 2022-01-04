@@ -22,6 +22,7 @@ cursor = bank.cursor()
 cursor.execute('DELETE FROM music')
 bank.commit()
 
+
 class ListenNow(QMainWindow):
 
     def __init__(self):
@@ -178,10 +179,8 @@ class ListenNow(QMainWindow):
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
                         row += 1
                     except:
-                        self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted')
-
-
-
+                        self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[1])
             except IOError:
                 ...
 
@@ -190,6 +189,24 @@ class ListenNow(QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(2)
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
+
+    def Delete_Music(self, delete_music):
+        cursor.execute(f'SELECT id FROM music WHERE nome = "{delete_music}"')
+        id_deleted = cursor.fetchone()
+
+        cursor.execute(f'DELETE FROM music WHERE id = {id_deleted[0]}')
+        bank.commit()
+
+        self.Musics()
+
+        for music in musics:
+            if int(music[0]) > id_deleted[0]:
+                cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = {music[1]}')
+                bank.commit()
+
+        self.Musics()
+        self.UpdateTable()
+
 
 
 if __name__ == '__main__':
