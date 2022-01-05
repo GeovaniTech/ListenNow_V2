@@ -19,22 +19,29 @@ musics = None
 bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
-'''cursor.execute('DELETE FROM music')
-bank.commit()'''
+cursor.execute('DELETE FROM music')
+bank.commit()
 
 
 class ListenNow(QMainWindow):
+    def mousePressEvent(self, event):
+        self.oldPosition = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint(event.globalPos() - self.oldPosition)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPosition = event.globalPos()
 
     def __init__(self):
         global musics
-
-        # Loading Songs
-        self.Musics()
 
         QMainWindow.__init__(self)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # Loading Songs
+        self.Musics()
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
@@ -57,16 +64,7 @@ class ListenNow(QMainWindow):
 
         # Loading Table
         self.Table()
-
         self.UpdateTable()
-
-    def mousePressEvent(self, event):
-        self.oldPosition = event.globalPos()
-
-    def mouseMoveEvent(self, event):
-        delta = QPoint(event.globalPos() - self.oldPosition)
-        self.move(self.x() + delta.x(), self.y() + delta.y())
-        self.oldPosition = event.globalPos()
 
     def Animation(self):
         global newWidth
@@ -161,8 +159,6 @@ class ListenNow(QMainWindow):
         self.ui.tableWidget.verticalScrollBar().setVisible(False)
         self.ui.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.ui.tableWidget.setFocusPolicy(Qt.NoFocus)
-        self.ui.tableWidget.column
-
 
         self.ui.tableWidget.setStyleSheet('QTableWidget {color: white;font: 11pt "Century Gothic";}'
                                           'QTableWidget::item:selected{background-color:rgb(87, 87, 87);; outline:0px; color: white;}'
@@ -189,28 +185,57 @@ class ListenNow(QMainWindow):
 
             icon = QIcon()
             icon.addPixmap(QPixmap('View/QRC/lixo_br.png'), QIcon.Normal, QIcon.Off)
-
             self.button_delete.setIcon(icon)
+            self.button_delete.clicked.connect(self.Delete_Table)
 
             try:
                 audiofile = eyed3.load(music[1])
-                try:
-                    if audiofile != None:
+                title = audiofile.tag.title
+                if str(title) == 'None':
+                    try:
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
                         row += 1
-
-                    else:
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[1])
+                else:
+                    try:
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
                         row += 1
-                except:
-                    self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                    self.Delete_Music(music[1])
-            except IOError:
-                ...
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[1])
+            except AttributeError:
+                if str(title) == 'None':
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+                else:
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+            except OSError:
+                self.PopUps('Error - Add to Song',
+                            f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                self.Delete_Music(music[0])
 
     def Home(self):
         if len(musics) > 0:
@@ -219,21 +244,27 @@ class ListenNow(QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(0)
 
     def Delete_Music(self, delete_music):
-        cursor.execute(f'SELECT id FROM music WHERE nome = "{delete_music}"')
-        id_deleted = cursor.fetchone()
+        id_deleted = delete_music
 
-        cursor.execute(f'DELETE FROM music WHERE id = {id_deleted[0]}')
+        cursor.execute(f'DELETE FROM music WHERE id = {id_deleted}')
         bank.commit()
 
         self.Musics()
 
         for music in musics:
-            if int(music[0]) > id_deleted[0]:
-                cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = {music[1]}')
+            if int(music[0]) > id_deleted:
+                cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = "{music[1]}"')
                 bank.commit()
 
-        self.Musics()
         self.UpdateTable()
+
+
+
+    def Delete_Table(self):
+
+        id = self.ui.tableWidget.currentIndex().row() + 1
+
+        self.Delete_Music(int(id))
 
 
 if __name__ == '__main__':
