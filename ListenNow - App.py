@@ -160,11 +160,13 @@ class ListenNow(QMainWindow):
         self.ui.tableWidget.verticalHeader().setVisible(False)
         self.ui.tableWidget.verticalScrollBar().setVisible(False)
         self.ui.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.ui.tableWidget.setFocusPolicy(Qt.NoFocus)
+        self.ui.tableWidget.column
 
-        self.ui.tableWidget.setStyleSheet('Align-text: Center;'
-                                          'Color: White;'
-                                          'font: 11pt "Century Gothic";'
-                                          'outline: 0;')
+
+        self.ui.tableWidget.setStyleSheet('QTableWidget {color: white;font: 11pt "Century Gothic";}'
+                                          'QTableWidget::item:selected{background-color:rgb(87, 87, 87);; outline:0px; color: white;}'
+                                          'QHeaderView::section:horizontal{background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 10pt "Century Gothic";}')
 
         self.UpdateTable()
 
