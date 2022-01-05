@@ -19,8 +19,8 @@ musics = None
 bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
-cursor.execute('DELETE FROM music')
-bank.commit()
+'''cursor.execute('DELETE FROM music')
+bank.commit()'''
 
 
 class ListenNow(QMainWindow):
@@ -144,7 +144,6 @@ class ListenNow(QMainWindow):
     def Table(self):
         global musics
 
-        # Inserindo as Colunas na tabela
         self.ui.tableWidget.insertColumn(0)
         self.ui.tableWidget.insertColumn(0)
         self.ui.tableWidget.insertColumn(0)
@@ -155,14 +154,17 @@ class ListenNow(QMainWindow):
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
-
         columns = ['ID','Name', 'Delete']
         self.ui.tableWidget.setHorizontalHeaderLabels(columns)
         self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui.tableWidget.verticalHeader().setVisible(False)
+        self.ui.tableWidget.verticalScrollBar().setVisible(False)
+        self.ui.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-        self.ui.tableWidget.setStyleSheet('Align-text: Center;')
-
+        self.ui.tableWidget.setStyleSheet('Align-text: Center;'
+                                          'Color: White;'
+                                          'font: 11pt "Century Gothic";'
+                                          'outline: 0;')
 
         self.UpdateTable()
 
@@ -177,8 +179,16 @@ class ListenNow(QMainWindow):
             # Tratando erro dos metadados
             eyed3.log.setLevel("ERROR")
 
-            self.button_delete = QPushButton('Delete')
+            # Creating a button delete
+            self.button_delete = QPushButton()
             self.button_delete.setFixedWidth(60)
+            self.button_delete.setStyleSheet('QPushButton {border: 0px;}'
+                                             'QPushButton:hover {background-color: rgb(87, 87, 87);}')
+
+            icon = QIcon()
+            icon.addPixmap(QPixmap('View/QRC/lixo_br.png'), QIcon.Normal, QIcon.Off)
+
+            self.button_delete.setIcon(icon)
 
             try:
                 audiofile = eyed3.load(music[1])
