@@ -17,8 +17,8 @@ newWidth = 0
 musics = None
 
 bank = sqlite3.connect('bank_music')
-
 cursor = bank.cursor()
+
 cursor.execute('DELETE FROM music')
 bank.commit()
 
@@ -57,6 +57,8 @@ class ListenNow(QMainWindow):
 
         # Loading Table
         self.Table()
+
+        self.UpdateTable()
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -144,13 +146,22 @@ class ListenNow(QMainWindow):
 
         # Inserindo as Colunas na tabela
         self.ui.tableWidget.insertColumn(0)
-        self.ui.tableWidget.setColumnWidth(0, 250)
-        header = self.ui.tableWidget.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.ui.tableWidget.insertColumn(0)
+        self.ui.tableWidget.insertColumn(0)
 
-        columns = ['Name']
+        header = self.ui.tableWidget.horizontalHeader()
+
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+
+
+        columns = ['ID','Name', 'Delete']
         self.ui.tableWidget.setHorizontalHeaderLabels(columns)
         self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.ui.tableWidget.verticalHeader().setVisible(False)
+
+        self.ui.tableWidget.setStyleSheet('Align-text: Center;')
 
 
         self.UpdateTable()
@@ -166,20 +177,26 @@ class ListenNow(QMainWindow):
             # Tratando erro dos metadados
             eyed3.log.setLevel("ERROR")
 
+            self.button_delete = QPushButton('Delete')
+            self.button_delete.setFixedWidth(60)
+
             try:
                 audiofile = eyed3.load(music[1])
-
-                if audiofile != None:
-                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(os.path.basename(music[1])))
-                    row += 1
-
-                else:
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(audiofile.tag.title)))
+                try:
+                    if audiofile != None:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
                         row += 1
-                    except:
-                        self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[1])
+
+                    else:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(audiofile.tag.title)))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        row += 1
+                except:
+                    self.PopUps('Error - Add to Song', f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                    self.Delete_Music(music[1])
             except IOError:
                 ...
 
@@ -205,7 +222,6 @@ class ListenNow(QMainWindow):
 
         self.Musics()
         self.UpdateTable()
-
 
 
 if __name__ == '__main__':
