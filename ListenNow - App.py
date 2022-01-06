@@ -16,22 +16,25 @@ from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
 
-musics = None
-
 bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
+
+musics = None
+count_play = 0
 
 
 class ListenNow(QMainWindow):
 
     def __init__(self):
         global musics
+        global count_play
 
         QMainWindow.__init__(self)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Init Pygame
         pygame.init()
         pygame.mixer.init()
 
@@ -47,6 +50,7 @@ class ListenNow(QMainWindow):
         sld.setRange(0, 9)
         sld.setValue(1)
         sld.valueChanged.connect(self.Som)
+        pygame.mixer.music.set_volume(float(0.1))
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
@@ -74,6 +78,18 @@ class ListenNow(QMainWindow):
         # Search Bar
         self.ui.search_music_home.returnPressed.connect(self.Search)
         self.ui.btn_search_home.clicked.connect(self.Search)
+
+        # Play Songs
+        self.ui.tableWidget.doubleClicked.connect(self.PlayTable)
+
+        # Button Play/Pause
+        self.ui.btn_play.clicked.connect(self.Play_Pause)
+
+        # Button Next Music
+        self.ui.btn_next.clicked.connect(self.Next_Music)
+
+        # Button Return Music
+        self.ui.btn_return.clicked.connect(self.Return_Music)
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -185,7 +201,6 @@ class ListenNow(QMainWindow):
         # Completer Search
         self.completer = list()
         self.completer.clear()
-
 
         row = 0
 
@@ -340,8 +355,84 @@ class ListenNow(QMainWindow):
 
     def Som(self, value):
         volume = f"{0}.{value}"
-        print(volume)
         pygame.mixer.music.set_volume(float(volume))
+
+    def PlaySongs(self, id):
+        self.id_music = None
+        self.id_music = id
+        self.Artist_Music()
+
+        self.pygame_controller = pygame.mixer.music
+        self.pygame_controller.unload()
+        self.pygame_controller.load(musics[id][1])
+        self.pygame_controller.play()
+
+    def PlayTable(self):
+        global count_play
+
+        id = self.ui.tableWidget.currentIndex().row()
+        self.PlaySongs(int(id))
+
+        if count_play == 0:
+            count_play += 2
+            self.Play_Pause()
+
+    def Artist_Music(self):
+        try:
+            audiofile = eyed3.load(musics[self.id_music][1])
+            titile = audiofile.tag.title
+            artist = audiofile.tag.artist
+
+            music = musics[self.id_music][1]
+
+            if str(titile) != 'None':
+                self.ui.lbl_name_Music.setText(titile)
+            else:
+                self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
+
+            if str(artist) != 'None':
+                self.ui.lbl_name_Artist.setText(artist)
+            else:
+                self.ui.lbl_name_Artist.setText('Artist not Found')
+        except AttributeError:
+            self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
+            self.ui.lbl_name_Artist.setText('Artist not Found')
+
+    def Play_Pause(self):
+        global count_play
+
+        if len(musics) > 0:
+            if count_play == 0:
+                self.PlaySongs(0)
+
+            if count_play % 2 == 1:
+                self.pygame_controller.pause()
+                self.ui.btn_play.setStyleSheet(
+                    'QPushButton {border: 0px;background-image: url(:/icons/imagens/toque.png);}'
+                    'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/toque_hover.png);}')
+
+            else:
+                self.pygame_controller.unpause()
+                self.ui.btn_play.setStyleSheet(
+                    'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}'
+                    'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}')
+
+            count_play += 1
+
+    def Next_Music(self):
+        if len(musics) > 0:
+            self.id_music += 1
+            if self.id_music == len(musics):
+                self.id_music = 0
+            self.PlaySongs(self.id_music)
+
+    def Return_Music(self):
+        if len(musics) > 0:
+            self.id_music -= 1
+            if self.id_music < 0:
+                self.id_music = int(len(musics)) - 1
+            self.PlaySongs(self.id_music)
+
 
 
 if __name__ == '__main__':

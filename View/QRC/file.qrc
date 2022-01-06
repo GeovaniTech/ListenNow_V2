@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons/imagens">
+    <file>pausa.png</file>
+    <file>pausa_hover.png</file>
     <file>casa_25x25.png</file>
     <file>lixo_br.png</file>
     <file>pasta-de-musica.png</file>
