@@ -1,7 +1,8 @@
-import os.path
+import os
 import sys
 import sqlite3
 import eyed3.utils
+import youtube_dl
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -13,24 +14,13 @@ from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
 
-newWidth = 0
 musics = None
 
 bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
-cursor.execute('DELETE FROM music')
-bank.commit()
-
 
 class ListenNow(QMainWindow):
-    def mousePressEvent(self, event):
-        self.oldPosition = event.globalPos()
-
-    def mouseMoveEvent(self, event):
-        delta = QPoint(event.globalPos() - self.oldPosition)
-        self.move(self.x() + delta.x(), self.y() + delta.y())
-        self.oldPosition = event.globalPos()
 
     def __init__(self):
         global musics
@@ -42,6 +32,10 @@ class ListenNow(QMainWindow):
 
         # Loading Songs
         self.Musics()
+
+        # Loading Table
+        self.Table()
+        self.UpdateTable()
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
@@ -56,21 +50,31 @@ class ListenNow(QMainWindow):
         self.Home()
         self.ui.btn_home.clicked.connect(self.Home)
 
-        # Download Screen
+        # Download Screen and Button
         self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+        self.ui.btn_download.clicked.connect(self.Donwload_Songs)
 
         # Add Songs
         self.ui.btn_add_songs.clicked.connect(self.Add_Songs)
 
-        # Loading Table
-        self.Table()
-        self.UpdateTable()
+        # Directory
+        self.ui.btn_select.clicked.connect(self.Directory)
+
+        # Search Bar
+        self.ui.search_music_home.returnPressed.connect(self.Search)
+        self.ui.btn_search_home.clicked.connect(self.Search)
+
+    def mousePressEvent(self, event):
+        self.oldPosition = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint(event.globalPos() - self.oldPosition)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPosition = event.globalPos()
 
     def Animation(self):
-        global newWidth
         width = self.ui.slide_menu.width()
 
-        print(width)
         if width == 0:
             newWidth = 273
         else:
@@ -95,7 +99,6 @@ class ListenNow(QMainWindow):
         musics = cursor.fetchall()
 
     def Add_Songs(self):
-
         root = Tk()
         root.withdraw()
         root.iconbitmap('View/QRC/Logo.ico')
@@ -117,19 +120,16 @@ class ListenNow(QMainWindow):
                         else:
                             id = int(id_bank) + 1
 
-                    print(music)
                     cursor.execute(f'INSERT INTO music VALUES({id}, "{str(music)}")')
                     bank.commit()
 
                     self.Musics()
                     self.UpdateTable()
                     self.ui.stackedWidget.setCurrentIndex(2)
-
                 else:
                     self.PopUps('Error - Add Songs', f"Music {os.path.basename(music[:-4])} is already added to the bank!")
 
     def PopUps(self, title, msg):
-
         message = QMessageBox()
         message.setWindowTitle(str(title))
         message.setText(str(msg))
@@ -148,7 +148,7 @@ class ListenNow(QMainWindow):
 
         header = self.ui.tableWidget.horizontalHeader()
 
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
@@ -171,11 +171,17 @@ class ListenNow(QMainWindow):
 
         self.ui.tableWidget.setRowCount(len(musics))
 
+        # Completer Search
+        self.completer = list()
+        self.completer.clear()
+
+
         row = 0
 
         for music in musics:
             # Tratando erro dos metadados
             eyed3.log.setLevel("ERROR")
+
 
             # Creating a button delete
             self.button_delete = QPushButton()
@@ -196,6 +202,7 @@ class ListenNow(QMainWindow):
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(os.path.basename(music[1]))
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -206,6 +213,7 @@ class ListenNow(QMainWindow):
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(title)
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -217,6 +225,7 @@ class ListenNow(QMainWindow):
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(os.path.basename(music[1]))
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -227,6 +236,7 @@ class ListenNow(QMainWindow):
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
                         self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(title)
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -236,6 +246,12 @@ class ListenNow(QMainWindow):
                 self.PopUps('Error - Add to Song',
                             f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
                 self.Delete_Music(music[0])
+
+            self.completer_songs = QCompleter(self.completer)
+            self.completer_songs.popup().setStyleSheet('background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
+            self.completer_songs.popup().setFocusPolicy(Qt.NoFocus)
+            self.completer_songs.setCaseSensitivity(Qt.CaseInsensitive)
+            self.ui.search_music_home.setCompleter(self.completer_songs)
 
     def Home(self):
         if len(musics) > 0:
@@ -249,23 +265,52 @@ class ListenNow(QMainWindow):
         cursor.execute(f'DELETE FROM music WHERE id = {id_deleted}')
         bank.commit()
 
-        self.Musics()
-
         for music in musics:
             if int(music[0]) > id_deleted:
                 cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = "{music[1]}"')
                 bank.commit()
 
+        self.Musics()
         self.UpdateTable()
 
-
-
     def Delete_Table(self):
-
         id = self.ui.tableWidget.currentIndex().row() + 1
-
         self.Delete_Music(int(id))
+        self.Home()
 
+    def Directory(self):
+        root = Tk()
+        root.withdraw()
+        root.iconbitmap('View/QRC/Logo.ico')
+
+        self.directory = askdirectory()
+
+    def Donwload_Songs(self):
+        if self.directory != '' and self.ui.link_youtube.text() != '':
+
+            link = self.ui.link_youtube.text()
+
+            try:
+                self.PopUps('Download Started', "Your download has started, we'll notify you when it's ready.")
+                ydl_opts = {
+                    'format': 'bestaudio/best',
+                    'postprocessors': [{
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '192',
+                    }],
+                }
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([f'{link}'])
+            except:
+                self.PopUps("Error - Download", 'Sorry, but your download was not successful, please check the link and try again.')
+
+    def Search(self):
+        items = self.ui.tableWidget.findItems(self.ui.search_music_home.text(), Qt.MatchContains)
+
+        if items:
+            item = items[0]
+            self.ui.tableWidget.setCurrentItem(item)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
