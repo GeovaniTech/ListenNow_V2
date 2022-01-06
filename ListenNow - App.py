@@ -4,6 +4,7 @@ import sqlite3
 import eyed3.utils
 import youtube_dl
 import shutil
+import pygame
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -31,12 +32,21 @@ class ListenNow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        pygame.init()
+        pygame.mixer.init()
+
         # Loading Songs
         self.Musics()
 
         # Loading Table
         self.Table()
         self.UpdateTable()
+
+        # Som Slider
+        sld = self.ui.som_slider
+        sld.setRange(0, 9)
+        sld.setValue(1)
+        sld.valueChanged.connect(self.Som)
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
@@ -327,6 +337,12 @@ class ListenNow(QMainWindow):
         if items:
             item = items[0]
             self.ui.tableWidget.setCurrentItem(item)
+
+    def Som(self, value):
+        volume = f"{0}.{value}"
+        print(volume)
+        pygame.mixer.music.set_volume(float(volume))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
