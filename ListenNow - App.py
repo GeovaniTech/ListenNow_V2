@@ -3,6 +3,7 @@ import sys
 import sqlite3
 import eyed3.utils
 import youtube_dl
+import shutil
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -200,9 +201,9 @@ class ListenNow(QMainWindow):
                 if str(title) == 'None':
                     try:
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1]))
+                        self.completer.append(os.path.basename(music[1][:-4]))
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -218,14 +219,14 @@ class ListenNow(QMainWindow):
                     except:
                         self.PopUps('Error - Add to Song',
                                     f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[1])
+                        self.Delete_Music(music[0])
             except AttributeError:
                 if str(title) == 'None':
                     try:
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
                         self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1]))
+                        self.completer.append(os.path.basename(music[1][:-4]))
                         row += 1
                     except:
                         self.PopUps('Error - Add to Song',
@@ -304,6 +305,21 @@ class ListenNow(QMainWindow):
                     ydl.download([f'{link}'])
             except:
                 self.PopUps("Error - Download", 'Sorry, but your download was not successful, please check the link and try again.')
+
+            current_folder = os.path.dirname(os.path.realpath(__file__))
+            files = []
+            files.clear()
+
+            # Pegando todos os arquivos da pasta e adicionando na lista dos arquivos
+            for (dirpath, dirnames, filenames) in os.walk(current_folder):
+                files.extend(filenames)
+                break
+
+            # Verficando se há algum arquivo .mp3
+            for file in files:
+                if file[-4:] == '.mp3':
+                    # Movendo arquivo para o diretório informado
+                    shutil.move(file, self.directory)
 
     def Search(self):
         items = self.ui.tableWidget.findItems(self.ui.search_music_home.text(), Qt.MatchContains)
