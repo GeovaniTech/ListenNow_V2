@@ -22,6 +22,7 @@ cursor = bank.cursor()
 musics = None
 
 
+
 class ListenNow(QMainWindow):
 
     def __init__(self):
@@ -239,7 +240,7 @@ class ListenNow(QMainWindow):
                     except:
                         self.PopUps('Error - Add to Song',
                                     f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[1])
+                        self.Delete_Music(music[0])
                 else:
                     try:
                         self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
@@ -291,8 +292,8 @@ class ListenNow(QMainWindow):
         else:
             self.ui.stackedWidget.setCurrentIndex(0)
 
-    def Delete_Music(self, delete_music):
-        id_deleted = delete_music
+    def Delete_Music(self, id):
+        id_deleted = id
 
         cursor.execute(f'DELETE FROM music WHERE id = {id_deleted}')
         bank.commit()
@@ -375,13 +376,23 @@ class ListenNow(QMainWindow):
         pygame.mixer.music.set_volume(float(volume))
 
     def PlaySongs(self, id):
-        self.id_music = id
-        self.Artist_Music()
-        self.pygame_controller = pygame.mixer.music
+        try:
+            self.id_music = id
+            self.Artist_Music()
+            self.pygame_controller = pygame.mixer.music
 
-        self.pygame_controller.unload()
-        self.pygame_controller.load(musics[id][1])
-        self.pygame_controller.play()
+            self.pygame_controller.unload()
+            self.pygame_controller.load(musics[id][1])
+            self.pygame_controller.play()
+        except:
+            self.PopUps('Error Play Song', f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
+            self.Delete_Music(id + 1)
+            self.Musics()
+            self.UpdateTable()
+            if len(musics) > 0:
+                self.pygame_controller.load(musics[id - 1][1])
+                self.pygame_controller.play()
+                self.Artist_Music()
 
     def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
@@ -390,6 +401,7 @@ class ListenNow(QMainWindow):
         if self.count_play == 0:
             self.count_play = 1
             self.Play()
+            self.Automatic_Musics()
 
     def Pause(self):
         self.ui.btn_play.setStyleSheet(self.stylePlay)
@@ -411,6 +423,8 @@ class ListenNow(QMainWindow):
             else:
                 self.Play()
                 self.count_play = 1
+
+        self.Automatic_Musics()
 
     def Artist_Music(self):
         try:
