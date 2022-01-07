@@ -22,7 +22,6 @@ cursor = bank.cursor()
 musics = None
 
 
-
 class ListenNow(QMainWindow):
 
     def __init__(self):
@@ -97,6 +96,9 @@ class ListenNow(QMainWindow):
 
         self.stylePause = 'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}' \
                           'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}'
+
+        # Button Sound
+        self.ui.btn_sound.clicked.connect(self.Sound_Max_Min)
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -372,6 +374,7 @@ class ListenNow(QMainWindow):
             self.ui.tableWidget.setCurrentItem(item)
 
     def Som(self, value):
+        self.value = value
         volume = f"{0}.{value}"
         pygame.mixer.music.set_volume(float(volume))
 
@@ -477,6 +480,14 @@ class ListenNow(QMainWindow):
                     if len(musics) > 0:
                         self.Next_Music()
 
+    def Sound_Max_Min(self):
+
+        if pygame.mixer.music.get_volume() > 0:
+            self.Som(0)
+            self.ui.som_slider.setValue(0)
+        else:
+            self.Som(9)
+            self.ui.som_slider.setValue(9)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
