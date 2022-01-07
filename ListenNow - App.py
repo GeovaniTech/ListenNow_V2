@@ -20,14 +20,12 @@ bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
 musics = None
-count_play = 0
 
 
 class ListenNow(QMainWindow):
 
     def __init__(self):
         global musics
-        global count_play
 
         QMainWindow.__init__(self)
 
@@ -84,6 +82,7 @@ class ListenNow(QMainWindow):
 
         # Button Play/Pause
         self.ui.btn_play.clicked.connect(self.Play_Pause)
+        self.count_play = 0
 
         # Button Next Music
         self.ui.btn_next.clicked.connect(self.Next_Music)
@@ -344,7 +343,18 @@ class ListenNow(QMainWindow):
             for file in files:
                 if file[-4:] == '.mp3':
                     # Movendo arquivo para o diretório informado
-                    shutil.move(file, self.directory)
+                    try:
+                        shutil.move(file, self.directory)
+                    except:
+                        desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+                        os.mkdir(f'{desktop}/ListenNow - Songs')
+                        self.directory = f'{desktop}/ListenNow - Songs'
+
+                        shutil.move(file, self.directory)
+                        self.PopUps('Error to Save Music', 'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
+
+                    else:
+                        self.PopUps('Download Completed', f'Download completed successfully! your music is in {self.directory}')
 
     def Search(self):
         items = self.ui.tableWidget.findItems(self.ui.search_music_home.text(), Qt.MatchContains)
@@ -361,20 +371,20 @@ class ListenNow(QMainWindow):
         self.id_music = None
         self.id_music = id
         self.Artist_Music()
-
         self.pygame_controller = pygame.mixer.music
+
         self.pygame_controller.unload()
         self.pygame_controller.load(musics[id][1])
         self.pygame_controller.play()
 
-    def PlayTable(self):
-        global count_play
 
+
+    def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
         self.PlaySongs(int(id))
 
-        if count_play == 0:
-            count_play += 2
+        if self.count_play == 0:
+            self.count_play += 2
             self.Play_Pause()
 
     def Artist_Music(self):
@@ -399,13 +409,11 @@ class ListenNow(QMainWindow):
             self.ui.lbl_name_Artist.setText('Artist not Found')
 
     def Play_Pause(self):
-        global count_play
-
         if len(musics) > 0:
-            if count_play == 0:
+            if self.count_play == 0:
                 self.PlaySongs(0)
 
-            if count_play % 2 == 1:
+            if self.count_play % 2 == 1:
                 self.pygame_controller.pause()
                 self.ui.btn_play.setStyleSheet(
                     'QPushButton {border: 0px;background-image: url(:/icons/imagens/toque.png);}'
@@ -417,7 +425,7 @@ class ListenNow(QMainWindow):
                     'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}'
                     'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}')
 
-            count_play += 1
+            self.count_play += 1
 
     def Next_Music(self):
         if len(musics) > 0:
@@ -432,7 +440,6 @@ class ListenNow(QMainWindow):
             if self.id_music < 0:
                 self.id_music = int(len(musics)) - 1
             self.PlaySongs(self.id_music)
-
 
 
 if __name__ == '__main__':
