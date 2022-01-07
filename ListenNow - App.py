@@ -84,14 +84,18 @@ class ListenNow(QMainWindow):
         self.count_play = 0
         self.ui.btn_play.clicked.connect(self.Play_Pause)
 
-
         # Button Next Music
         self.ui.btn_next.clicked.connect(self.Next_Music)
 
         # Button Return Music
         self.ui.btn_return.clicked.connect(self.Return_Music)
 
+        # Styles Button Play
+        self.stylePlay = 'QPushButton {border: 0px;background-image: url(:/icons/imagens/toque.png);}' \
+                         'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/toque_hover.png);}'
 
+        self.stylePause = 'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}' \
+                          'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}'
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -110,7 +114,7 @@ class ListenNow(QMainWindow):
             newWidth = 0
 
         self.animation = QPropertyAnimation(self.ui.slide_menu, b"minimumWidth")
-        self.animation.setDuration(400)
+        self.animation.setDuration(600)
         self.animation.setStartValue(width)
         self.animation.setEndValue(newWidth)
         self.animation.setEasingCurve(QEasingCurve.InOutQuart)
@@ -379,16 +383,34 @@ class ListenNow(QMainWindow):
         self.pygame_controller.load(musics[id][1])
         self.pygame_controller.play()
 
-        #self.Automatic_Musics()
-
     def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
         self.PlaySongs(int(id))
 
         if self.count_play == 0:
-            self.count_play += 2
-            self.Play_Pause()
+            self.count_play = 1
+            self.Play()
 
+    def Pause(self):
+        self.ui.btn_play.setStyleSheet(self.stylePlay)
+        self.pygame_controller.pause()
+
+    def Play(self):
+        self.ui.btn_play.setStyleSheet(self.stylePause)
+        self.pygame_controller.unpause()
+
+    def Play_Pause(self):
+        if self.count_play == 0:
+            self.PlaySongs(0)
+            self.count_play = 1
+            self.Play()
+        else:
+            if self.count_play % 2 == 1:
+                self.Pause()
+                self.count_play = 2
+            else:
+                self.Play()
+                self.count_play = 1
 
     def Artist_Music(self):
         try:
@@ -411,42 +433,25 @@ class ListenNow(QMainWindow):
             self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
             self.ui.lbl_name_Artist.setText('Artist not Found')
 
-    def Play_Pause(self):
-
-
-        if self.count_play == 0:
-            self.PlaySongs(0)
-
-        if len(musics) > 0:
-            if self.count_play % 2 == 1:
-                self.pygame_controller.pause()
-                self.ui.btn_play.setStyleSheet(
-                    'QPushButton {border: 0px;background-image: url(:/icons/imagens/toque.png);}'
-                    'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/toque_hover.png);}')
-
-            elif self.count_play % 2 == 0:
-                self.pygame_controller.unpause()
-                self.ui.btn_play.setStyleSheet(
-                    'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}'
-                    'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}')
-
-            self.count_play += 1
-
-            self.Automatic_Musics()
-
     def Next_Music(self):
         if len(musics) > 0:
             self.id_music += 1
             if self.id_music == len(musics):
                 self.id_music = 0
+
             self.PlaySongs(self.id_music)
+            self.count_play = 1
+            self.Play()
 
     def Return_Music(self):
         if len(musics) > 0:
             self.id_music -= 1
             if self.id_music < 0:
                 self.id_music = int(len(musics)) - 1
+
             self.PlaySongs(self.id_music)
+            self.count_play = 1
+            self.Play()
 
     def Automatic_Musics(self):
         END_EVENT = pygame.USEREVENT +1
