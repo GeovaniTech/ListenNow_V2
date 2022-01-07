@@ -81,14 +81,17 @@ class ListenNow(QMainWindow):
         self.ui.tableWidget.doubleClicked.connect(self.PlayTable)
 
         # Button Play/Pause
-        self.ui.btn_play.clicked.connect(self.Play_Pause)
         self.count_play = 0
+        self.ui.btn_play.clicked.connect(self.Play_Pause)
+
 
         # Button Next Music
         self.ui.btn_next.clicked.connect(self.Next_Music)
 
         # Button Return Music
         self.ui.btn_return.clicked.connect(self.Return_Music)
+
+
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -368,7 +371,6 @@ class ListenNow(QMainWindow):
         pygame.mixer.music.set_volume(float(volume))
 
     def PlaySongs(self, id):
-        self.id_music = None
         self.id_music = id
         self.Artist_Music()
         self.pygame_controller = pygame.mixer.music
@@ -377,7 +379,7 @@ class ListenNow(QMainWindow):
         self.pygame_controller.load(musics[id][1])
         self.pygame_controller.play()
 
-
+        #self.Automatic_Musics()
 
     def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
@@ -386,6 +388,7 @@ class ListenNow(QMainWindow):
         if self.count_play == 0:
             self.count_play += 2
             self.Play_Pause()
+
 
     def Artist_Music(self):
         try:
@@ -409,23 +412,27 @@ class ListenNow(QMainWindow):
             self.ui.lbl_name_Artist.setText('Artist not Found')
 
     def Play_Pause(self):
-        if len(musics) > 0:
-            if self.count_play == 0:
-                self.PlaySongs(0)
 
+
+        if self.count_play == 0:
+            self.PlaySongs(0)
+
+        if len(musics) > 0:
             if self.count_play % 2 == 1:
                 self.pygame_controller.pause()
                 self.ui.btn_play.setStyleSheet(
                     'QPushButton {border: 0px;background-image: url(:/icons/imagens/toque.png);}'
                     'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/toque_hover.png);}')
 
-            else:
+            elif self.count_play % 2 == 0:
                 self.pygame_controller.unpause()
                 self.ui.btn_play.setStyleSheet(
                     'QPushButton {border: 0px;background-image: url(:/icons/imagens/pausa.png);}'
                     'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/pausa_hover.png);}')
 
             self.count_play += 1
+
+            self.Automatic_Musics()
 
     def Next_Music(self):
         if len(musics) > 0:
@@ -440,6 +447,16 @@ class ListenNow(QMainWindow):
             if self.id_music < 0:
                 self.id_music = int(len(musics)) - 1
             self.PlaySongs(self.id_music)
+
+    def Automatic_Musics(self):
+        END_EVENT = pygame.USEREVENT +1
+        self.pygame_controller.set_endevent(END_EVENT)
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == END_EVENT:
+                    if len(musics) > 0:
+                        self.Next_Music()
 
 
 if __name__ == '__main__':
