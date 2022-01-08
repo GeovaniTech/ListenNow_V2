@@ -401,9 +401,10 @@ class ListenNow(QMainWindow):
         id = self.ui.tableWidget.currentIndex().row()
         self.PlaySongs(int(id))
 
+        self.count_play = 1
+        self.Play()
+
         if self.count_play == 0:
-            self.count_play = 1
-            self.Play()
             self.Automatic_Musics()
 
     def Pause(self):
@@ -489,8 +490,9 @@ class ListenNow(QMainWindow):
             self.Som(9)
             self.ui.som_slider.setValue(9)
 
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = ListenNow()
-    window.show()
+    window.showMaximized()
     sys.exit(app.exec_())
