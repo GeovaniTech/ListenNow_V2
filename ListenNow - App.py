@@ -340,15 +340,24 @@ class ListenNow(QMainWindow):
             except:
                 self.PopUps("Error - Download",
                             'Sorry, but your download was not successful, please check the link and try again.')
+
             current_folder = os.path.dirname(os.path.realpath(__file__))
 
-            file = f'mp4/{title}.mp4'
-            os.replace(file, f'{current_folder}/{title}.mp4')
+            files = list()
+            files.clear()
 
-            self.mp4_to_mp3(f'{title}.mp4', f'{title}.mp3')
-            os.remove(f'{title}.mp4')
+            for (dirpath, dirnames, filenames) in os.walk('mp4'):
+                files.extend(filenames)
+                break
+
+            for file in files:
+                if file[-4:] == '.mp4':
+
+                    self.mp4_to_mp3(f'mp4\{file}', f'{title}.mp3')
+                    os.remove(f'mp4\{file}')
 
             file = f'{title}.mp3'
+
             self.directory_first = self.directory
 
             try:
@@ -363,10 +372,11 @@ class ListenNow(QMainWindow):
                         os.mkdir(f'{desktop}/ListenNow - Songs')
                         shutil.move(file, self.directory)
                         self.PopUps('Error to Save Music',
-                                'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
+                                    'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
                     except:
                         os.remove(f'{title}.mp3')
-                        self.PopUps(f'Error Save the Song', f'Music already existing in {self.directory} and {self.directory_first}')
+                        self.PopUps(f'Error Save the Song',
+                                    f'Music already existing in {self.directory} and {self.directory_first}')
             else:
                 self.PopUps('Download Completed',
                             f'Download completed successfully! your music is in {self.directory}')
