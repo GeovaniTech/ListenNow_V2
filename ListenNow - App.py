@@ -2,7 +2,7 @@ import os
 import sys
 import sqlite3
 import eyed3.utils
-import youtube_dl
+import pytube as pt
 import shutil
 import pygame
 
@@ -15,12 +15,15 @@ from PyQt5 import QtWidgets
 from View.PY.ui_Interface import Ui_MainWindow
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import Tk
+from moviepy.editor import *
 
 bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
 musics = None
 
+cursor.execute('DELETE FROM music')
+bank.commit()
 
 class ListenNow(QMainWindow):
 
@@ -104,9 +107,12 @@ class ListenNow(QMainWindow):
         self.oldPosition = event.globalPos()
 
     def mouseMoveEvent(self, event):
-        delta = QPoint(event.globalPos() - self.oldPosition)
-        self.move(self.x() + delta.x(), self.y() + delta.y())
-        self.oldPosition = event.globalPos()
+        try:
+            delta = QPoint(event.globalPos() - self.oldPosition)
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.oldPosition = event.globalPos()
+        except:
+            window.showMaximized()
 
     def Animation(self):
         width = self.ui.slide_menu.width()
@@ -324,47 +330,51 @@ class ListenNow(QMainWindow):
         if self.directory != '' and self.ui.link_youtube.text() != '':
 
             link = self.ui.link_youtube.text()
+            try:
+
+                self.PopUps('Download Started', "Your download has started, we'll notify you when it's ready.")
+
+                stream = pt.YouTube(url=link).streams.get_audio_only()
+                stream.download('mp4')
+                title = str(stream.title)
+            except:
+                self.PopUps("Error - Download",
+                            'Sorry, but your download was not successful, please check the link and try again.')
+            current_folder = os.path.dirname(os.path.realpath(__file__))
+
+            file = f'mp4/{title}.mp4'
+            os.replace(file, f'{current_folder}/{title}.mp4')
+
+            self.mp4_to_mp3(f'{title}.mp4', f'{title}.mp3')
+            os.remove(f'{title}.mp4')
+
+            file = f'{title}.mp3'
+            self.directory_first = self.directory
 
             try:
-                self.PopUps('Download Started', "Your download has started, we'll notify you when it's ready.")
-                ydl_opts = {
-                    'format': 'bestaudio/best',
-                    'postprocessors': [{
-                        'key': 'FFmpegExtractAudio',
-                        'preferredcodec': 'mp3',
-                        'preferredquality': '192',
-                    }],
-                }
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download([f'{link}'])
+                shutil.move(file, self.directory)
             except:
-                self.PopUps("Error - Download", 'Sorry, but your download was not successful, please check the link and try again.')
-
-            current_folder = os.path.dirname(os.path.realpath(__file__))
-            files = []
-            files.clear()
-
-            # Pegando todos os arquivos da pasta e adicionando na lista dos arquivos
-            for (dirpath, dirnames, filenames) in os.walk(current_folder):
-                files.extend(filenames)
-                break
-
-            # Verficando se há algum arquivo .mp3
-            for file in files:
-                if file[-4:] == '.mp3':
-                    # Movendo arquivo para o diretório informado
+                desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+                try:
+                    self.directory = f'{desktop}\ListenNow - Songs'
+                    shutil.move(file, self.directory)
+                except:
                     try:
-                        shutil.move(file, self.directory)
-                    except:
-                        desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
                         os.mkdir(f'{desktop}/ListenNow - Songs')
-                        self.directory = f'{desktop}/ListenNow - Songs'
-
                         shutil.move(file, self.directory)
-                        self.PopUps('Error to Save Music', 'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
+                        self.PopUps('Error to Save Music',
+                                'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
+                    except:
+                        os.remove(f'{title}.mp3')
+                        self.PopUps(f'Error Save the Song', f'Music already existing in {self.directory} and {self.directory_first}')
+            else:
+                self.PopUps('Download Completed',
+                            f'Download completed successfully! your music is in {self.directory}')
 
-                    else:
-                        self.PopUps('Download Completed', f'Download completed successfully! your music is in {self.directory}')
+    def mp4_to_mp3(self, mp4, mp3):
+        mp4_without_frames = AudioFileClip(mp4)
+        mp4_without_frames.write_audiofile(mp3)
+        mp4_without_frames.close()
 
     def Search(self):
         items = self.ui.tableWidget.findItems(self.ui.search_music_home.text(), Qt.MatchContains)
