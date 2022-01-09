@@ -21,9 +21,7 @@ bank = sqlite3.connect('bank_music')
 cursor = bank.cursor()
 
 musics = None
-
-cursor.execute('DELETE FROM music')
-bank.commit()
+link = ''
 
 class ListenNow(QMainWindow):
 
@@ -66,10 +64,6 @@ class ListenNow(QMainWindow):
         self.Home()
         self.ui.btn_home.clicked.connect(self.Home)
 
-        # Download Screen and Button
-        self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
-        self.ui.btn_download.clicked.connect(self.Donwload_Songs)
-
         # Add Songs
         self.ui.btn_add_songs.clicked.connect(self.Add_Songs)
 
@@ -102,6 +96,10 @@ class ListenNow(QMainWindow):
 
         # Button Sound
         self.ui.btn_sound.clicked.connect(self.Sound_Max_Min)
+
+        # Download Screen and Button
+        self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+        self.ui.btn_download.clicked.connect(self.Donwload_Songs)
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -320,66 +318,23 @@ class ListenNow(QMainWindow):
         self.Home()
 
     def Directory(self):
-        root = Tk()
-        root.withdraw()
-        root.iconbitmap('View/QRC/Logo.ico')
-
-        self.directory = askdirectory()
+        DownloadThread().Directory()
 
     def Donwload_Songs(self):
-        if self.directory != '' and self.ui.link_youtube.text() != '':
+        global link
+        link = self.ui.link_youtube.text()
 
-            link = self.ui.link_youtube.text()
-            try:
+        self.thread = QThread()
+        self.worker = DownloadThread()
+        self.worker.moveToThread(self.thread)
+        self.thread.started.connect(self.worker.Download)
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+        self.thread.start()
 
-                self.PopUps('Download Started', "Your download has started, we'll notify you when it's ready.")
-
-                stream = pt.YouTube(url=link).streams.get_audio_only()
-                stream.download('mp4')
-                title = str(stream.title)
-            except:
-                self.PopUps("Error - Download",
-                            'Sorry, but your download was not successful, please check the link and try again.')
-
-            current_folder = os.path.dirname(os.path.realpath(__file__))
-
-            files = list()
-            files.clear()
-
-            for (dirpath, dirnames, filenames) in os.walk('mp4'):
-                files.extend(filenames)
-                break
-
-            for file in files:
-                if file[-4:] == '.mp4':
-
-                    self.mp4_to_mp3(f'mp4\{file}', f'{title}.mp3')
-                    os.remove(f'mp4\{file}')
-
-            file = f'{title}.mp3'
-
-            self.directory_first = self.directory
-
-            try:
-                shutil.move(file, self.directory)
-            except:
-                desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
-                try:
-                    self.directory = f'{desktop}\ListenNow - Songs'
-                    shutil.move(file, self.directory)
-                except:
-                    try:
-                        os.mkdir(f'{desktop}/ListenNow - Songs')
-                        shutil.move(file, self.directory)
-                        self.PopUps('Error to Save Music',
-                                    'There is already a song with the same name in the selected folder, we have created a folder on your desktop with the song.')
-                    except:
-                        os.remove(f'{title}.mp3')
-                        self.PopUps(f'Error Save the Song',
-                                    f'Music already existing in {self.directory} and {self.directory_first}')
-            else:
-                self.PopUps('Download Completed',
-                            f'Download completed successfully! your music is in {self.directory}')
+        self.ui.btn_download.setEnabled(False)
+        self.thread.finished.connect(lambda: self.ui.btn_download.setEnabled(True))
 
     def mp4_to_mp3(self, mp4, mp3):
         mp4_without_frames = AudioFileClip(mp4)
@@ -509,6 +464,26 @@ class ListenNow(QMainWindow):
         else:
             self.Som(9)
             self.ui.som_slider.setValue(9)
+
+class DownloadThread(QObject):
+    finished = pyqtSignal()
+
+    def Directory(self):
+        root = Tk()
+        root.withdraw()
+        root.iconbitmap('View/QRC/Logo.ico')
+
+        self.directory = askdirectory()
+
+    def Download(self):
+        global link
+        try:
+            stream = pt.YouTube(url=link).streams.get_audio_only()
+            stream.download('mp4')
+            title = str(stream.title)
+            self.finished.emit()
+        except:
+            print('error')
 
 
 if __name__ == '__main__':
