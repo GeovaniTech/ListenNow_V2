@@ -24,6 +24,7 @@ musics = None
 link = ''
 directory = ''
 
+
 class ListenNow(QMainWindow):
 
     def __init__(self):
@@ -208,90 +209,7 @@ class ListenNow(QMainWindow):
         self.UpdateTable()
 
     def UpdateTable(self):
-        global musics
-
-        self.ui.tableWidget.setRowCount(len(musics))
-
-        # Completer Search
-        self.completer = list()
-        self.completer.clear()
-
-        row = 0
-
-        for music in musics:
-            # Tratando erro dos metadados
-            eyed3.log.setLevel("ERROR")
-
-
-            # Creating a button delete
-            self.button_delete = QPushButton()
-            self.button_delete.setFixedWidth(60)
-            self.button_delete.setStyleSheet('QPushButton {border: 0px;}'
-                                             'QPushButton:hover {background-color: rgb(87, 87, 87);}')
-
-            icon = QIcon()
-            icon.addPixmap(QPixmap('View/QRC/lixo_br.png'), QIcon.Normal, QIcon.Off)
-            self.button_delete.setIcon(icon)
-            self.button_delete.clicked.connect(self.Delete_Table)
-
-            try:
-                audiofile = eyed3.load(music[1])
-                title = audiofile.tag.title
-                if str(title) == 'None':
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1][:-4]))
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-                else:
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(title)
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-            except AttributeError:
-                if str(title) == 'None':
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1][:-4]))
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-                else:
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(title)
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-            except OSError:
-                self.PopUps('Error - Add to Song',
-                            f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                self.Delete_Music(music[0])
-
-            self.completer_songs = QCompleter(self.completer)
-            self.completer_songs.popup().setStyleSheet('background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
-            self.completer_songs.popup().setFocusPolicy(Qt.NoFocus)
-            self.completer_songs.setCaseSensitivity(Qt.CaseInsensitive)
-            self.ui.search_music_home.setCompleter(self.completer_songs)
+        ...
 
     def Home(self):
         if len(musics) > 0:
@@ -332,7 +250,7 @@ class ListenNow(QMainWindow):
 
         # Configuring Thread
         self.thread = QThread()
-        self.worker = DownloadThread()
+        self.worker = Threads()
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.Download)
 
@@ -495,13 +413,12 @@ class ListenNow(QMainWindow):
             self.ui.som_slider.setValue(9)
 
 
-class DownloadThread(QObject):
+class Threads(QObject):
     finished = pyqtSignal()
     error_download = pyqtSignal()
     error_link = pyqtSignal()
     error_save = pyqtSignal()
     started_download = pyqtSignal()
-
 
     def PopUps(self, title, msg):
         message = QMessageBox()
@@ -518,13 +435,11 @@ class DownloadThread(QObject):
 
         if link != '' and directory != '':
             try:
-                #self.PopUps('Download started', 'We will notify you when it is ready.')
                 self.started_download.emit()
                 stream = pt.YouTube(url=link).streams.get_audio_only()
                 stream.download('mp4')
                 title = str(stream.title)
             except:
-                #self.PopUps('Error - Download Song', 'Unfortunately we were unable to complete your download, please check your link or enter another one.')
                 self.error_download.emit()
 
             files = list()
@@ -544,18 +459,17 @@ class DownloadThread(QObject):
             try:
                 shutil.move(file, directory)
             except:
-                #self.PopUps('Error - Move Song', 'There is already a song with the same name existing at your destination.')
                 self.error_save.emit()
+            else:
+                self.finished.emit()
         else:
-            #self.PopUps('Error - download launch', 'Link not entered or directory not selected.')
             self.error_link.emit()
-
-        self.finished.emit()
 
     def mp4_to_mp3(self, mp4, mp3):
         mp4_without_frames = AudioFileClip(mp4)
         mp4_without_frames.write_audiofile(mp3)
         mp4_without_frames.close()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
