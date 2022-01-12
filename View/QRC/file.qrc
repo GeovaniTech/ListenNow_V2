@@ -1,0 +1,35 @@
+<RCC>
+  <qresource prefix="icons/imagens">
+    <file>pausa.png</file>
+    <file>pausa_hover.png</file>
+    <file>casa_25x25.png</file>
+    <file>lixo_br.png</file>
+    <file>pasta-de-musica.png</file>
+    <file>adicionar-botao_br.png</file>
+    <file>download_25x25.png</file>
+    <file>casa_25x25.png</file>
+    <file>lixo_br.png</file>
+    <file>pasta-de-musica.png</file>
+    <file>volume.png</file>
+    <file>volume_hover.png</file>
+    <file>Logo 65x65.png</file>
+    <file>proximo.png</file>
+    <file>proximo_hover.png</file>
+    <file>anterior.png</file>
+    <file>anterior_hover.png</file>
+    <file>toque.png</file>
+    <file>toque_hover.png</file>
+    <file>logo.ico</file>
+    <file>foto_perfil.png</file>
+    <file>max.png</file>
+    <file>max_hover.png</file>
+    <file>menu.png</file>
+    <file>menu_hover.png</file>
+    <file>minus.png</file>
+    <file>minus_hover.png</file>
+    <file>search.png</file>
+    <file>search_hover.png</file>
+    <file>x.png</file>
+    <file>x_hover.png</file>
+  </qresource>
+</RCC>
