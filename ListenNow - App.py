@@ -289,48 +289,45 @@ class ListenNow(QMainWindow):
         directory = askdirectory()
 
     def Donwload_Songs(self):
-        global link
+        global link, directory
         link = self.ui.link_youtube.text()
 
-        # Configuring Thread
-        self.thread = QThread()
-        self.worker = Threads()
-        self.worker.moveToThread(self.thread)
-        self.thread.started.connect(self.worker.Download)
+        if link and directory != '':
+            # Configuring Thread
+            self.thread = QThread()
+            self.worker = Threads()
+            self.worker.moveToThread(self.thread)
+            self.thread.started.connect(self.worker.Download)
 
-        # PopUps Started Download
-        self.worker.started_download.connect(lambda: self.PopUps('Download started', 'We will notify you when it is ready.'))
+            # PopUps Started Download
+            self.worker.started_download.connect(lambda: self.PopUps('Download started', 'We will notify you when it is ready.'))
 
-        # PopUps and finishing threading
-        self.worker.finished.connect(lambda: self.PopUps('Successful Download', f'Your download was completed successfully! Your file is located at {directory}.'))
-        self.worker.finished.connect(self.thread.quit)
-        self.worker.finished.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+            # PopUps and finishing threading
+            self.worker.finished.connect(lambda: self.PopUps('Successful Download', f'Your download was completed successfully! Your file is located at {directory}.'))
+            self.worker.finished.connect(self.thread.quit)
+            self.worker.finished.connect(self.worker.deleteLater)
+            self.thread.finished.connect(self.thread.deleteLater)
 
-        # PopUps and finishing threading
-        self.worker.error_link.connect(lambda: self.PopUps('Error - download launch', 'Link not entered or directory not selected.'))
-        self.worker.error_link.connect(self.thread.quit)
-        self.worker.error_link.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+            # PopUps and finishing threading
+            self.worker.error_download.connect(lambda: self.PopUps('Error - Download Song', 'Unfortunately we were unable to complete your download, please check your link or enter another one.'))
+            self.worker.error_download.connect(self.thread.quit)
+            self.worker.error_download.connect(self.worker.deleteLater)
+            self.thread.finished.connect(self.thread.deleteLater)
 
-        # PopUps and finishing threading
-        self.worker.error_download.connect(lambda: self.PopUps('Error - Download Song', 'Unfortunately we were unable to complete your download, please check your link or enter another one.'))
-        self.worker.error_download.connect(self.thread.quit)
-        self.worker.error_download.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+            # PopUps and finishing threading
+            self.worker.error_save.connect(lambda: self.PopUps('Error - Move Song', 'There is already a song with the same name existing at your destination.'))
+            self.worker.error_save.connect(self.thread.quit)
+            self.worker.error_save.connect(self.worker.deleteLater)
+            self.thread.finished.connect(self.thread.deleteLater)
 
-        # PopUps and finishing threading
-        self.worker.error_save.connect(lambda: self.PopUps('Error - Move Song', 'There is already a song with the same name existing at your destination.'))
-        self.worker.error_save.connect(self.thread.quit)
-        self.worker.error_save.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+            # Starting Thread
+            self.thread.start()
 
-        # Starting Thread
-        self.thread.start()
-
-        # Enabling and disabling button download
-        self.ui.btn_download.setEnabled(False)
-        self.thread.finished.connect(lambda: self.ui.btn_download.setEnabled(True))
+            # Enabling and disabling button download
+            self.ui.btn_download.setEnabled(False)
+            self.thread.finished.connect(lambda: self.ui.btn_download.setEnabled(True))
+        else:
+            self.PopUps('Error - download launch', 'Link not entered or directory not selected.')
 
     def Search(self):
         items = self.ui.tableWidget.findItems(self.ui.search_music_home.text(), Qt.MatchContains)
@@ -460,11 +457,13 @@ class ListenNow(QMainWindow):
 
 
 class Threads(QObject):
+    # Signals Download
     finished = pyqtSignal()
     error_download = pyqtSignal()
-    error_link = pyqtSignal()
     error_save = pyqtSignal()
     started_download = pyqtSignal()
+
+    # Signals Delete
 
     def PopUps(self, title, msg):
         message = QMessageBox()
@@ -479,38 +478,35 @@ class Threads(QObject):
     def Download(self):
         global link, directory
 
-        if link != '' and directory != '':
-            try:
-                self.started_download.emit()
-                stream = pt.YouTube(url=link).streams.get_audio_only()
-                stream.download('mp4')
-                title = str(stream.title)
+        try:
+            self.started_download.emit()
+            stream = pt.YouTube(url=link).streams.first()
+            stream.download()
+            title = str(stream.title)
+        except:
+            self.error_download.emit()
 
-            except:
-                self.error_download.emit()
+        files = list()
+        files.clear()
 
-            files = list()
-            files.clear()
+        current_directory = os.path.dirname(os.path.realpath(__file__))
 
-            for (dirpath, dirnames, filenames) in os.walk('mp4'):
-                files.extend(filenames)
-                break
+        for (dirpath, dirnames, filenames) in os.walk(current_directory):
+            files.extend(filenames)
+            break
 
-            for file in files:
-                music = f'mp4\{file}'
+        for file in files:
+            if file[-4:] == '.mp4':
+                music = f'{file}'
                 self.mp4_to_mp3(music, f'{title}.mp3')
                 os.remove(music)
 
-            file = f'{title}.mp3'
-
-            try:
-                shutil.move(file, directory)
-            except:
-                self.error_save.emit()
-            else:
-                self.finished.emit()
+        try:
+            shutil.move(f'{title}.mp3', directory)
+        except:
+            self.error_save.emit()
         else:
-            self.error_link.emit()
+            self.finished.emit()
 
     def mp4_to_mp3(self, mp4, mp3):
         mp4_without_frames = AudioFileClip(mp4)
