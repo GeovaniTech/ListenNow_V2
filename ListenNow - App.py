@@ -24,6 +24,8 @@ musics = None
 link = ''
 directory = ''
 
+'''cursor.execute('DELETE FROM music')
+bank.commit()'''
 
 class ListenNow(QMainWindow):
 
@@ -165,11 +167,12 @@ class ListenNow(QMainWindow):
                     cursor.execute(f'INSERT INTO music VALUES({id}, "{str(music)}")')
                     bank.commit()
 
-                    self.Musics()
-                    self.UpdateTable()
                     self.ui.stackedWidget.setCurrentIndex(2)
                 else:
                     self.PopUps('Error - Add Songs', f"Music {os.path.basename(music[:-4])} is already added to the bank!")
+
+        self.Musics()
+        self.UpdateTable()
 
     def PopUps(self, title, msg):
         message = QMessageBox()
@@ -206,10 +209,91 @@ class ListenNow(QMainWindow):
                                           'QTableWidget::item:selected{background-color:rgb(87, 87, 87);; outline:0px; color: white;}'
                                           'QHeaderView::section:horizontal{background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 10pt "Century Gothic";}')
 
-        self.UpdateTable()
-
     def UpdateTable(self):
-        ...
+        global musics
+
+        self.ui.tableWidget.setRowCount(len(musics))
+
+        # Completer Search
+        self.completer = list()
+        self.completer.clear()
+
+        row = 0
+
+        for music in musics:
+            # Tratando erro dos metadados
+            eyed3.log.setLevel("ERROR")
+
+            # Creating a button delete
+            self.button_delete = QPushButton()
+            self.button_delete.setFixedWidth(60)
+            self.button_delete.setStyleSheet('QPushButton {border: 0px;}'
+                                             'QPushButton:hover {background-color: rgb(87, 87, 87);}')
+
+            icon = QIcon()
+            icon.addPixmap(QPixmap('View/QRC/lixo_br.png'), QIcon.Normal, QIcon.Off)
+            self.button_delete.setIcon(icon)
+            self.button_delete.clicked.connect(self.Delete_Table)
+
+            try:
+                audiofile = eyed3.load(music[1])
+                title = audiofile.tag.title
+                if str(title) == 'None':
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(os.path.basename(music[1][:-4]))
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+                else:
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(title)
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+            except AttributeError:
+                if str(title) == 'None':
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(os.path.basename(music[1][:-4]))
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+                else:
+                    try:
+                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
+                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                        self.completer.append(title)
+                        row += 1
+                    except:
+                        self.PopUps('Error - Add to Song',
+                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                        self.Delete_Music(music[0])
+            except OSError:
+                self.PopUps('Error - Add to Song',
+                            f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
+                self.Delete_Music(music[0])
+
+            self.completer_songs = QCompleter(self.completer)
+            self.completer_songs.popup().setStyleSheet(
+                'background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
+            self.completer_songs.popup().setFocusPolicy(Qt.NoFocus)
+            self.completer_songs.setCaseSensitivity(Qt.CaseInsensitive)
+            self.ui.search_music_home.setCompleter(self.completer_songs)
 
     def Home(self):
         if len(musics) > 0:
@@ -314,6 +398,7 @@ class ListenNow(QMainWindow):
             self.Delete_Music(id + 1)
             self.Musics()
             self.UpdateTable()
+
             if len(musics) > 0:
                 self.pygame_controller.load(musics[id - 1][1])
                 self.pygame_controller.play()
