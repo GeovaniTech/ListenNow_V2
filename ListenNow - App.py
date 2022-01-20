@@ -24,8 +24,6 @@ musics = None
 link = ''
 directory = ''
 
-'''cursor.execute('DELETE FROM music')
-bank.commit()'''
 
 class ListenNow(QMainWindow):
 
@@ -57,11 +55,12 @@ class ListenNow(QMainWindow):
 
         # Animation Menu
         self.ui.btn_menu.clicked.connect(self.Animation)
-        self.window().setWindowFlags(Qt.FramelessWindowHint)
+
+        self.window().setWindowFlags(Qt.WindowFlags(Qt.FramelessWindowHint))
 
         # Top Bar
         self.ui.btn_max_min.clicked.connect(self.Maxmize)
-        self.ui.btn_exit.clicked.connect(lambda: self.window().close())
+        self.ui.btn_exit.clicked.connect(self.CloseWindow)
         self.ui.btn_min.clicked.connect(lambda: self.window().showMinimized())
 
         # Home Screen
@@ -116,6 +115,9 @@ class ListenNow(QMainWindow):
         except:
             window.showMaximized()
 
+    def CloseWindow(self):
+        sys.exit()
+
     def Animation(self):
         width = self.ui.slide_menu.width()
 
@@ -125,7 +127,7 @@ class ListenNow(QMainWindow):
             newWidth = 0
 
         self.animation = QPropertyAnimation(self.ui.slide_menu, b"minimumWidth")
-        self.animation.setDuration(600)
+        self.animation.setDuration(270)
         self.animation.setStartValue(width)
         self.animation.setEndValue(newWidth)
         self.animation.setEasingCurve(QEasingCurve.InOutQuart)
@@ -212,19 +214,14 @@ class ListenNow(QMainWindow):
     def UpdateTable(self):
         global musics
 
-        self.ui.tableWidget.setRowCount(len(musics))
+        row = 0
 
-        # Completer Search
         self.completer = list()
         self.completer.clear()
 
-        row = 0
+        self.ui.tableWidget.setRowCount(len(musics))
 
         for music in musics:
-            # Tratando erro dos metadados
-            eyed3.log.setLevel("ERROR")
-
-            # Creating a button delete
             self.button_delete = QPushButton()
             self.button_delete.setFixedWidth(60)
             self.button_delete.setStyleSheet('QPushButton {border: 0px;}'
@@ -235,65 +232,28 @@ class ListenNow(QMainWindow):
             self.button_delete.setIcon(icon)
             self.button_delete.clicked.connect(self.Delete_Table)
 
-            try:
-                audiofile = eyed3.load(music[1])
-                title = audiofile.tag.title
-                if str(title) == 'None':
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1][:-4]))
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-                else:
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(title)
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-            except AttributeError:
-                if str(title) == 'None':
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(os.path.basename(music[1][:-4]))
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-                else:
-                    try:
-                        self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                        self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
-                        self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                        self.completer.append(title)
-                        row += 1
-                    except:
-                        self.PopUps('Error - Add to Song',
-                                    f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                        self.Delete_Music(music[0])
-            except OSError:
-                self.PopUps('Error - Add to Song',
-                            f'Music {os.path.basename(music[1])} not found or is corrupted. Music will be deleted!')
-                self.Delete_Music(music[0])
+            eyed3.log.setLevel("ERROR")
+            audiofile = eyed3.load(music[1])
+            title = audiofile.tag.title
 
-            self.completer_songs = QCompleter(self.completer)
-            self.completer_songs.popup().setStyleSheet(
-                'background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
-            self.completer_songs.popup().setFocusPolicy(Qt.NoFocus)
-            self.completer_songs.setCaseSensitivity(Qt.CaseInsensitive)
-            self.ui.search_music_home.setCompleter(self.completer_songs)
+            if title == None:
+                self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
+                self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                self.completer.append(os.path.basename(music[1][:-4]))
+                row += 1
+            else:
+                self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
+                self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                self.completer.append(title)
+                row += 1
+
+        self.completer_songs = QCompleter(self.completer)
+        self.completer_songs.popup().setStyleSheet('background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
+        self.completer_songs.popup().setFocusPolicy(Qt.NoFocus)
+        self.completer_songs.setCaseSensitivity(Qt.CaseInsensitive)
+        self.ui.search_music_home.setCompleter(self.completer_songs)
 
     def Home(self):
         if len(musics) > 0:
@@ -381,8 +341,8 @@ class ListenNow(QMainWindow):
 
     def Som(self, value):
         self.value = value
-        volume = f"{0}.{value}"
-        pygame.mixer.music.set_volume(float(volume))
+        self.volume = f"{0}.{value}"
+        pygame.mixer.music.set_volume(float(self.volume))
 
     def PlaySongs(self, id):
         try:
@@ -410,9 +370,7 @@ class ListenNow(QMainWindow):
 
         self.count_play = 1
         self.Play()
-
-        if self.count_play == 0:
-            self.Automatic_Musics()
+        self.Automatic_Musics()
 
     def Pause(self):
         self.ui.btn_play.setStyleSheet(self.stylePlay)
@@ -489,13 +447,16 @@ class ListenNow(QMainWindow):
                         self.Next_Music()
 
     def Sound_Max_Min(self):
-
         if pygame.mixer.music.get_volume() > 0:
+            self.last_value = self.value
             self.Som(0)
             self.ui.som_slider.setValue(0)
         else:
-            self.Som(9)
-            self.ui.som_slider.setValue(9)
+            if self.last_value != 0:
+                self.ui.som_slider.setValue(self.last_value)
+                self.Som(self.last_value)
+            else:
+                self.ui.som_slider.setValue(1)
 
 
 class Threads(QObject):
@@ -524,6 +485,7 @@ class Threads(QObject):
                 stream = pt.YouTube(url=link).streams.get_audio_only()
                 stream.download('mp4')
                 title = str(stream.title)
+
             except:
                 self.error_download.emit()
 
