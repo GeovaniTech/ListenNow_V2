@@ -300,10 +300,9 @@ class ListenNow(QMainWindow):
             self.id_music = self.id_music - 1
             self.Next_Music()
 
-        elif self.id_music != id - 1 and self.id_music != 0and self.id_music + 1 > id_deleted:
+        elif self.id_music != id - 1 and self.id_music != 0 and self.id_music + 1 > id_deleted:
             self.id_music = self.id_music - 1
             print('Função que abcabei de cirar')
-
 
     def Delete_Table(self):
         id = self.ui.tableWidget.currentIndex().row() + 1
@@ -520,15 +519,24 @@ class Threads(QObject):
 
         for file in files:
             if file[-4:] == '.mp4':
-                music = f'{file}'
-                self.mp4_to_mp3(music, f'{title}.mp3')
-                os.remove(music)
-        try:
-            shutil.move(f'{title}.mp3', directory)
-        except:
-            self.error_save.emit()
-        else:
-            self.finished.emit()
+                music = f'{current_directory}\{file}'
+                try:
+                    self.mp4_to_mp3(music, f'{title}.mp3')
+                    os.remove(music)
+                except:
+                    self.error_download.emit()
+                    os.system('TASKKILL /F /IM ffmpeg-win64-v4.2.2.exe')
+                    os.remove(file)
+                else:
+                    try:
+                        shutil.move(f'{title}.mp3', directory)
+                    except:
+                        self.error_save.emit()
+                    else:
+                        self.finished.emit()
+
+
+
 
     def mp4_to_mp3(self, mp4, mp3):
         mp4_without_frames = AudioFileClip(mp4)
