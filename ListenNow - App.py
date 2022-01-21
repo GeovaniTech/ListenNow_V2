@@ -300,7 +300,7 @@ class ListenNow(QMainWindow):
             self.id_music = self.id_music - 1
             self.Next_Music()
 
-        elif self.id_music != id - 1 and self.id_music != 0:
+        elif self.id_music != id - 1 and self.id_music != 0and self.id_music + 1 > id_deleted:
             self.id_music = self.id_music - 1
             print('Função que abcabei de cirar')
 
