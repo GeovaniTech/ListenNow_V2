@@ -294,10 +294,15 @@ class ListenNow(QMainWindow):
         elif self.id_music == id - 1 and self.id_music == 0 and len(musics) > 0:
             self.id_music = self.id_music - 1
             self.Next_Music()
+            print('aqui1')
 
         elif self.id_music == id - 1 and self.id_music != 0:
             self.id_music = self.id_music - 1
             self.Next_Music()
+
+        elif self.id_music != id - 1 and self.id_music != 0:
+            self.id_music = self.id_music - 1
+            print('Função que abcabei de cirar')
 
 
     def Delete_Table(self):
