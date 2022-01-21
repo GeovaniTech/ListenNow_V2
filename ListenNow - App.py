@@ -295,7 +295,6 @@ class ListenNow(QMainWindow):
             self.id_music = self.id_music - 1
             self.Next_Music()
 
-
         elif self.id_music == id - 1 and self.id_music != 0:
             self.id_music = self.id_music - 1
             self.Next_Music()
@@ -365,8 +364,8 @@ class ListenNow(QMainWindow):
         id = self.ui.tableWidget.currentIndex().row()
         self.PlaySongs(int(id))
 
-        self.count_play = 1
-        self.Play()
+        self.count_play = 2
+        self.Play_Pause()
 
     def Som(self, value):
         self.value = value
@@ -384,7 +383,6 @@ class ListenNow(QMainWindow):
             self.Delete_Music(id + 1)
             self.PopUps('Error Play Song',
                         f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
-
 
     def Pause(self):
         pygame.mixer.music.pause()
