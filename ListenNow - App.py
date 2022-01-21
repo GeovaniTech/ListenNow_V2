@@ -151,6 +151,8 @@ class ListenNow(QMainWindow):
 
         files = askopenfilenames()
 
+        error_songs = list()
+
         for music in files:
             if music[-4:] == '.mp3':
                 cursor.execute(f'SELECT nome FROM music WHERE nome = "{music}"')
@@ -171,7 +173,10 @@ class ListenNow(QMainWindow):
 
                     self.ui.stackedWidget.setCurrentIndex(2)
                 else:
-                    self.PopUps('Error - Add Songs', f"Music {os.path.basename(music[:-4])} is already added to the bank!")
+                    error_songs.append(os.path.basename(music[:-4]))
+
+        if len(error_songs) > 0:
+                self.PopUps('Error - Add Songs', f"{len(error_songs)} not added as they are already in the bank!")
 
         self.Musics()
         self.UpdateTable()
@@ -267,18 +272,33 @@ class ListenNow(QMainWindow):
         cursor.execute(f'DELETE FROM music WHERE id = {id_deleted}')
         bank.commit()
 
-        for music in musics:
+        cursor.execute(f'SELECT * FROM music WHERE id > {id_deleted}')
+        id_to_be_changed = cursor.fetchall()
+
+        for music in id_to_be_changed:
             if int(music[0]) > id_deleted:
                 cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = "{music[1]}"')
                 bank.commit()
 
         self.Musics()
         self.UpdateTable()
+        self.Home()
+
+        if len(musics) == 0:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            self.count_play = 0
+            self.ui.btn_play.setStyleSheet(self.stylePlay)
+            self.Artist_Music()
+
+        elif self.id_music == id - 1 and self.id_music == 0 and len(musics) > 0:
+            self.Next_Music()
+        else:
+            self.id_music = self.id_music - 1
 
     def Delete_Table(self):
         id = self.ui.tableWidget.currentIndex().row() + 1
         self.Delete_Music(int(id))
-        self.Home()
 
     def Directory(self):
         global directory
@@ -336,6 +356,13 @@ class ListenNow(QMainWindow):
             item = items[0]
             self.ui.tableWidget.setCurrentItem(item)
 
+    def PlayTable(self):
+        id = self.ui.tableWidget.currentIndex().row()
+        self.PlaySongs(int(id))
+
+        self.count_play = 1
+        self.Play()
+
     def Som(self, value):
         self.value = value
         self.volume = f"{0}.{value}"
@@ -345,44 +372,31 @@ class ListenNow(QMainWindow):
         try:
             self.id_music = id
             self.Artist_Music()
-            self.pygame_controller = pygame.mixer.music
 
-            self.pygame_controller.unload()
-            self.pygame_controller.load(musics[id][1])
-            self.pygame_controller.play()
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
         except:
-            self.PopUps('Error Play Song', f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
             self.Delete_Music(id + 1)
-            self.Musics()
-            self.UpdateTable()
+            self.PopUps('Error Play Song',
+                        f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
-            if len(musics) > 0:
-                self.pygame_controller.load(musics[id - 1][1])
-                self.pygame_controller.play()
-                self.Artist_Music()
-
-    def PlayTable(self):
-        id = self.ui.tableWidget.currentIndex().row()
-        self.PlaySongs(int(id))
-
-        self.count_play = 1
-        self.Play()
-        self.Automatic_Musics()
 
     def Pause(self):
+        pygame.mixer.music.pause()
         self.ui.btn_play.setStyleSheet(self.stylePlay)
-        self.pygame_controller.pause()
 
     def Play(self):
+        pygame.mixer.music.unpause()
         self.ui.btn_play.setStyleSheet(self.stylePause)
-        self.pygame_controller.unpause()
 
     def Play_Pause(self):
-        if self.count_play == 0:
+        if len(musics) == 0:
+            ...
+        if len(musics) > 0 and self.count_play == 0:
             self.PlaySongs(0)
-            self.count_play = 1
-            self.Play()
-        else:
+            self.count_play = 2
+
+        if self.count_play == 1 or self.count_play == 2:
             if self.count_play % 2 == 1:
                 self.Pause()
                 self.count_play = 2
@@ -393,25 +407,29 @@ class ListenNow(QMainWindow):
         self.Automatic_Musics()
 
     def Artist_Music(self):
-        try:
-            audiofile = eyed3.load(musics[self.id_music][1])
-            titile = audiofile.tag.title
-            artist = audiofile.tag.artist
+        if len(musics) > 0:
+            try:
+                audiofile = eyed3.load(musics[self.id_music][1])
+                titile = audiofile.tag.title
+                artist = audiofile.tag.artist
 
-            music = musics[self.id_music][1]
+                music = musics[self.id_music][1]
 
-            if str(titile) != 'None':
-                self.ui.lbl_name_Music.setText(titile)
-            else:
+                if str(titile) != 'None':
+                    self.ui.lbl_name_Music.setText(titile)
+                else:
+                    self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
+
+                if str(artist) != 'None':
+                    self.ui.lbl_name_Artist.setText(artist)
+                else:
+                    self.ui.lbl_name_Artist.setText('Artist not Found')
+            except AttributeError:
                 self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
-
-            if str(artist) != 'None':
-                self.ui.lbl_name_Artist.setText(artist)
-            else:
                 self.ui.lbl_name_Artist.setText('Artist not Found')
-        except AttributeError:
-            self.ui.lbl_name_Music.setText(os.path.basename(music[:-4]))
-            self.ui.lbl_name_Artist.setText('Artist not Found')
+        else:
+            self.ui.lbl_name_Artist.setText('Artist')
+            self.ui.lbl_name_Music.setText('Music')
 
     def Next_Music(self):
         if len(musics) > 0:
@@ -434,14 +452,13 @@ class ListenNow(QMainWindow):
             self.Play()
 
     def Automatic_Musics(self):
-        END_EVENT = pygame.USEREVENT +1
-        self.pygame_controller.set_endevent(END_EVENT)
+        END_EVENT = pygame.USEREVENT + 1
+        pygame.mixer.music.set_endevent(END_EVENT)
 
         while True:
             for event in pygame.event.get():
                 if event.type == END_EVENT:
-                    if len(musics) > 0:
-                        self.Next_Music()
+                    self.Next_Music()
 
     def Sound_Max_Min(self):
         if pygame.mixer.music.get_volume() > 0:
@@ -463,8 +480,6 @@ class Threads(QObject):
     error_save = pyqtSignal()
     started_download = pyqtSignal()
 
-    # Signals Delete
-
     def PopUps(self, title, msg):
         message = QMessageBox()
         message.setWindowTitle(str(title))
@@ -480,7 +495,7 @@ class Threads(QObject):
 
         try:
             self.started_download.emit()
-            stream = pt.YouTube(url=link).streams.first()
+            stream = pt.YouTube(url=link).streams.get_highest_resolution()
             stream.download()
             title = str(stream.title)
         except:
@@ -500,7 +515,6 @@ class Threads(QObject):
                 music = f'{file}'
                 self.mp4_to_mp3(music, f'{title}.mp3')
                 os.remove(music)
-
         try:
             shutil.move(f'{title}.mp3', directory)
         except:
