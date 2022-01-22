@@ -35,6 +35,8 @@ class ListenNow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.ui.lbl_name_Music.setWordWrap(True)
+
         # Init Pygame
         pygame.init()
         pygame.mixer.init()
@@ -282,7 +284,6 @@ class ListenNow(QMainWindow):
 
         self.Musics()
         self.UpdateTable()
-        self.Home()
 
         if len(musics) == 0:
             pygame.mixer.music.stop()
@@ -290,11 +291,11 @@ class ListenNow(QMainWindow):
             self.count_play = 0
             self.ui.btn_play.setStyleSheet(self.stylePlay)
             self.Artist_Music()
+            self.Home()
 
         elif self.id_music == id - 1 and self.id_music == 0 and len(musics) > 0:
             self.id_music = self.id_music - 1
             self.Next_Music()
-            print('aqui1')
 
         elif self.id_music == id - 1 and self.id_music != 0:
             self.id_music = self.id_music - 1
@@ -302,7 +303,6 @@ class ListenNow(QMainWindow):
 
         elif self.id_music != id - 1 and self.id_music != 0 and self.id_music + 1 > id_deleted:
             self.id_music = self.id_music - 1
-            print('Função que abcabei de cirar')
 
     def Delete_Table(self):
         id = self.ui.tableWidget.currentIndex().row() + 1

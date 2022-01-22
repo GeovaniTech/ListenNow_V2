@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1252</width>
-    <height>854</height>
+    <width>1187</width>
+    <height>770</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1124,6 +1124,9 @@ color: white;</string>
                   <property name="scaledContents">
                    <bool>false</bool>
                   </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
                   <property name="textInteractionFlags">
                    <set>Qt::NoTextInteraction</set>
                   </property>
@@ -1281,12 +1284,42 @@ background-image: url(:/icons/imagens/proximo_hover.png);
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <property name="spacing">
-              <number>9</number>
-             </property>
              <property name="rightMargin">
-              <number>45</number>
+              <number>0</number>
              </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton">
+               <property name="minimumSize">
+                <size>
+                 <width>25</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>25</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	background-image: url(:/icons/imagens/aleatorio_25x25.png);
+	border: 0px;
+}
+
+QPushButton:hover {
+	background-image: url(:/icons/imagens/aleatorio_25x2_br.png);
+}
+</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="btn_sound">
                <property name="minimumSize">
@@ -1351,6 +1384,31 @@ QSlider::handle:horizontal:hover {
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignBottom">
+              <widget class="QFrame" name="frame_grip">
+               <property name="minimumSize">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
               </widget>
              </item>
