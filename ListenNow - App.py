@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import sqlite3
 import eyed3.utils
@@ -110,6 +111,11 @@ class ListenNow(QMainWindow):
         # Download Screen and Button
         self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.btn_download.clicked.connect(self.Donwload_Songs)
+
+        # Shuffle
+        self.shuffle_clicked = 0
+        self.ui.pushButton.clicked.connect(self.Shuffle)
+        self.shuffle = False
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -371,7 +377,10 @@ class ListenNow(QMainWindow):
 
     def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
-        self.PlaySongs(int(id))
+        self.id_music = id
+        pygame.mixer.music.load(musics[self.id_music][1])
+        pygame.mixer.music.play()
+        self.Artist_Music()
 
         self.count_play = 2
         self.Play_Pause()
@@ -384,10 +393,16 @@ class ListenNow(QMainWindow):
     def PlaySongs(self, id):
         try:
             self.id_music = id
+            if self.shuffle == False:
+                pygame.mixer.music.load(musics[self.id_music][1])
+                pygame.mixer.music.play()
+            else:
+                len_musics = len(musics) - 1
+                random_id = random.randint(0, int(len_musics))
+                self.id_music = random_id
+                pygame.mixer.music.load(musics[random_id][1])
+                pygame.mixer.music.play()
             self.Artist_Music()
-
-            pygame.mixer.music.load(musics[self.id_music][1])
-            pygame.mixer.music.play()
         except:
             self.Delete_Music(id + 1)
             self.PopUps('Error Play Song',
@@ -489,6 +504,20 @@ class ListenNow(QMainWindow):
             self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/volume.png);}'
                                             'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
 
+    def Shuffle(self):
+        if self.shuffle_clicked == 0:
+            self.shuffle_clicked = 1
+
+        if self.shuffle_clicked % 2 == 1:
+            self.ui.pushButton.setStyleSheet('QPushButton {background-image: url(:/icons/imagens/aleatorio_25x25_click.png);border: 0px;}')
+            self.shuffle_clicked = 2
+            self.shuffle = True
+
+        elif self.shuffle_clicked % 2 == 0:
+            self.ui.pushButton.setStyleSheet('QPushButton {background-image: url(:/icons/imagens/aleatorio_25x25.png);border: 0px;}'
+                                             'QPushButton:hover {background-image: url(:/icons/imagens/aleatorio_25x2_br.png);}')
+            self.shuffle_clicked = 1
+            self.shuffle = False
 
 
 class Threads(QObject):
