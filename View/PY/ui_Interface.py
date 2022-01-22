@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1252, 854)
+        MainWindow.resize(1187, 770)
         MainWindow.setStyleSheet("background-color: rgb(74, 74, 74);")
         self.center = QtWidgets.QWidget(MainWindow)
         self.center.setObjectName("center")
@@ -32,14 +32,15 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.slide_menu = QtWidgets.QFrame(self.left_container)
-        self.slide_menu.setMaximumWidth(273)
-        self.slide_menu.setMinimumWidth(0)
-        self.slide_menu.setFixedWidth(0)
-
+        self.slide_menu.setMinimumSize(QtCore.QSize(273, 0))
         self.slide_menu.setStyleSheet("background-color: rgb(47, 47, 47);")
         self.slide_menu.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.slide_menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.slide_menu.setObjectName("slide_menu")
+        self.slide_menu.setMaximumWidth(273)
+        self.slide_menu.setMinimumWidth(0)
+        self.slide_menu.setFixedWidth(0)
+
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.slide_menu)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setSpacing(0)
@@ -517,6 +518,7 @@ class Ui_MainWindow(object):
         self.lbl_name_Music.setStyleSheet("font: 12pt \"Montserrat\";\n"
 "color: white;")
         self.lbl_name_Music.setScaledContents(False)
+        self.lbl_name_Music.setWordWrap(True)
         self.lbl_name_Music.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.lbl_name_Music.setObjectName("lbl_name_Music")
         self.verticalLayout_8.addWidget(self.lbl_name_Music)
@@ -594,9 +596,23 @@ class Ui_MainWindow(object):
         self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_11.setObjectName("frame_11")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_11)
-        self.horizontalLayout_7.setContentsMargins(-1, -1, 45, -1)
-        self.horizontalLayout_7.setSpacing(9)
+        self.horizontalLayout_7.setContentsMargins(-1, -1, 0, 0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.pushButton = QtWidgets.QPushButton(self.frame_11)
+        self.pushButton.setMinimumSize(QtCore.QSize(25, 25))
+        self.pushButton.setMaximumSize(QtCore.QSize(25, 25))
+        self.pushButton.setStyleSheet("QPushButton {\n"
+"    background-image: url(:/icons/imagens/aleatorio_25x25.png);\n"
+"    border: 0px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-image: url(:/icons/imagens/aleatorio_25x2_br.png);\n"
+"}\n"
+"")
+        self.pushButton.setText("")
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_7.addWidget(self.pushButton)
         self.btn_sound = QtWidgets.QPushButton(self.frame_11)
         self.btn_sound.setMinimumSize(QtCore.QSize(25, 25))
         self.btn_sound.setMaximumSize(QtCore.QSize(25, 25))
@@ -639,6 +655,14 @@ class Ui_MainWindow(object):
         self.som_slider.setOrientation(QtCore.Qt.Horizontal)
         self.som_slider.setObjectName("som_slider")
         self.horizontalLayout_7.addWidget(self.som_slider)
+        self.frame_grip = QtWidgets.QFrame(self.frame_11)
+        self.frame_grip.setMinimumSize(QtCore.QSize(20, 20))
+        self.frame_grip.setMaximumSize(QtCore.QSize(20, 20))
+        self.frame_grip.setStyleSheet("")
+        self.frame_grip.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_grip.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_grip.setObjectName("frame_grip")
+        self.horizontalLayout_7.addWidget(self.frame_grip, 0, QtCore.Qt.AlignBottom)
         self.horizontalLayout_3.addWidget(self.frame_11, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_2.addWidget(self.bottom)
         self.horizontalLayout.addWidget(self.right_conteiner)

@@ -35,7 +35,11 @@ class ListenNow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Activing WordWrap
         self.ui.lbl_name_Music.setWordWrap(True)
+
+        # Setting Gríp
+        QSizeGrip(self.ui.frame_grip)
 
         # Init Pygame
         pygame.init()
@@ -101,6 +105,7 @@ class ListenNow(QMainWindow):
 
         # Button Sound
         self.ui.btn_sound.clicked.connect(self.Sound_Max_Min)
+        self.value = 1
 
         # Download Screen and Button
         self.ui.btn_screen_download.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
@@ -472,12 +477,18 @@ class ListenNow(QMainWindow):
             self.last_value = self.value
             self.Som(0)
             self.ui.som_slider.setValue(0)
+            self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/mudo_25.png);}'
+                                            'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/mudo_25_br.png);}')
         else:
             if self.last_value != 0:
                 self.ui.som_slider.setValue(self.last_value)
                 self.Som(self.last_value)
             else:
                 self.ui.som_slider.setValue(1)
+
+            self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/volume.png);}'
+                                            'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
+
 
 
 class Threads(QObject):
