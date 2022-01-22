@@ -117,6 +117,10 @@ class ListenNow(QMainWindow):
         self.ui.pushButton.clicked.connect(self.Shuffle)
         self.shuffle = False
 
+        # ID Music
+        self.id_music = 0
+
+
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
 
@@ -390,6 +394,13 @@ class ListenNow(QMainWindow):
         self.volume = f"{0}.{value}"
         pygame.mixer.music.set_volume(float(self.volume))
 
+        if self.value == 0:
+            self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/mudo_25.png);}'
+                                            'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/mudo_25_br.png);}')
+        else:
+            self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/volume.png);}'
+                                            'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
+
     def PlaySongs(self, id):
         try:
             self.id_music = id
@@ -474,9 +485,11 @@ class ListenNow(QMainWindow):
             if self.id_music < 0:
                 self.id_music = int(len(musics)) - 1
 
-            self.PlaySongs(self.id_music)
-            self.count_play = 1
-            self.Play()
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
+            self.Artist_Music()
+            self.count_play = 2
+            self.Play_Pause()
 
     def Automatic_Musics(self):
         END_EVENT = pygame.USEREVENT + 1
@@ -500,9 +513,8 @@ class ListenNow(QMainWindow):
                 self.Som(self.last_value)
             else:
                 self.ui.som_slider.setValue(1)
-
             self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/volume.png);}'
-                                            'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
+                                        'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
 
     def Shuffle(self):
         if self.shuffle_clicked == 0:
