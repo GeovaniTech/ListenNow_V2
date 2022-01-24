@@ -587,9 +587,6 @@ class Threads(QObject):
                     else:
                         self.finished.emit()
 
-
-
-
     def mp4_to_mp3(self, mp4, mp3):
         mp4_without_frames = AudioFileClip(mp4)
         mp4_without_frames.write_audiofile(mp3)
