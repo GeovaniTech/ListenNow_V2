@@ -12,7 +12,7 @@
 
 ## Application Images
 
-![without musics](https://user-images.githubusercontent.com/84943777/148810935-5f0f3b7d-6c53-4a60-b511-6f1b56fceba8.PNG)
-![menu](https://user-images.githubusercontent.com/84943777/148810976-ade8404c-ab02-4632-b6c8-7990452e3c02.PNG)
-![with musics](https://user-images.githubusercontent.com/84943777/148810960-57eb14de-f18e-4a91-b61d-314d92786db5.PNG)
-![download](https://user-images.githubusercontent.com/84943777/148810988-6784e33c-475b-4499-a61a-327de7c44598.PNG)
+
+![Without Songs](https://user-images.githubusercontent.com/84943777/150866194-1686aaf9-9856-4afe-b376-4742340f4530.PNG)
+![With Songs](https://user-images.githubusercontent.com/84943777/150866197-07ac9f09-1307-4c59-a52d-983e7330a949.PNG)
+![Download](https://user-images.githubusercontent.com/84943777/150866198-5c56b3a4-d27a-4f83-b15a-9b0a3d39469f.PNG)
