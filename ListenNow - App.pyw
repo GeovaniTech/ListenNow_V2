@@ -120,6 +120,9 @@ class ListenNow(QMainWindow):
         # ID Music
         self.id_music = 0
 
+        # Songs Played
+        self.songs_played = list()
+
 
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
@@ -254,22 +257,25 @@ class ListenNow(QMainWindow):
             self.button_delete.setIcon(icon)
             self.button_delete.clicked.connect(self.Delete_Table)
 
-            eyed3.log.setLevel("ERROR")
-            audiofile = eyed3.load(music[1])
-            title = audiofile.tag.title
+            try:
+                eyed3.log.setLevel("ERROR")
+                audiofile = eyed3.load(music[1])
+                title = audiofile.tag.title
 
-            if title == None:
-                self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
-                self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                self.completer.append(os.path.basename(music[1][:-4]))
-                row += 1
-            else:
-                self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
-                self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
-                self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
-                self.completer.append(title)
-                row += 1
+                if title == None:
+                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(os.path.basename(music[1][:-4])))
+                    self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                    self.completer.append(os.path.basename(music[1][:-4]))
+                    row += 1
+                else:
+                    self.ui.tableWidget.setItem(row, 0, QTableWidgetItem(str(music[0])))
+                    self.ui.tableWidget.setItem(row, 1, QTableWidgetItem(str(title)))
+                    self.ui.tableWidget.setCellWidget(row, 2, self.button_delete)
+                    self.completer.append(title)
+                    row += 1
+            except:
+                self.Delete_Music(music[0])
 
         self.completer_songs = QCompleter(self.completer)
         self.completer_songs.popup().setStyleSheet('background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
@@ -384,6 +390,7 @@ class ListenNow(QMainWindow):
         self.id_music = id
         pygame.mixer.music.load(musics[self.id_music][1])
         pygame.mixer.music.play()
+        self.songs_played.append(self.id_music)
         self.Artist_Music()
 
         self.count_play = 2
@@ -404,15 +411,10 @@ class ListenNow(QMainWindow):
     def PlaySongs(self, id):
         try:
             self.id_music = id
-            if self.shuffle == False:
-                pygame.mixer.music.load(musics[self.id_music][1])
-                pygame.mixer.music.play()
-            else:
-                len_musics = len(musics) - 1
-                random_id = random.randint(0, int(len_musics))
-                self.id_music = random_id
-                pygame.mixer.music.load(musics[random_id][1])
-                pygame.mixer.music.play()
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
+
+            self.songs_played.append(self.id_music)
             self.Artist_Music()
         except:
             self.Delete_Music(id + 1)
@@ -475,21 +477,27 @@ class ListenNow(QMainWindow):
             if self.id_music == len(musics):
                 self.id_music = 0
 
+            if self.shuffle == True:
+                len_musics = len(musics) - 1
+                random_id = random.randint(0, int(len_musics))
+                self.id_music = random_id
+
             self.PlaySongs(self.id_music)
             self.count_play = 1
             self.Play()
 
     def Return_Music(self):
         if len(musics) > 0:
-            self.id_music -= 1
-            if self.id_music < 0:
-                self.id_music = int(len(musics)) - 1
+            if len(self.songs_played) > 1 :
+                if self.songs_played.index(self.id_music):
+                    self.id_music = self.songs_played[self.songs_played.index(self.id_music) - 1]
 
-            pygame.mixer.music.load(musics[self.id_music][1])
-            pygame.mixer.music.play()
-            self.Artist_Music()
-            self.count_play = 2
-            self.Play_Pause()
+                pygame.mixer.music.load(musics[self.id_music][1])
+                pygame.mixer.music.play()
+
+                self.Artist_Music()
+                self.count_play = 2
+                self.Play_Pause()
 
     def Automatic_Musics(self):
         END_EVENT = pygame.USEREVENT + 1
