@@ -447,8 +447,6 @@ class ListenNow(QMainWindow):
             self.ui.lbl_name_Music.setText('Music')
 
     def Next_Music(self):
-        ...
-
         if len(musics) > 0:
             if len(self.songs_played) > 0:
                 if self.id_music == self.songs_played[-1]:
@@ -470,12 +468,8 @@ class ListenNow(QMainWindow):
                     self.Play()
                     self.Artist_Music()
 
-        print(self.id_music)
-        print(self.songs_played)
 
     def Return_Music(self):
-        ...
-
         if len(musics) > 0:
             if len(self.songs_played) > 0:
                 if self.id_music == self.songs_played[0]:
@@ -495,9 +489,6 @@ class ListenNow(QMainWindow):
                         self.id_music -= 1
                         self.PlaySongs(self.id_music)
 
-        print(self.id_music)
-        print(self.songs_played)
-
     def PlaySongs(self, id):
         try:
             self.id_music = id
@@ -513,15 +504,9 @@ class ListenNow(QMainWindow):
             self.PopUps('Error Play Song',
                         f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
-        print(self.id_music)
-        print(self.songs_played)
-
     def PlayTable(self):
         id = self.ui.tableWidget.currentIndex().row()
         self.id_music = id
-
-        print(self.id_music)
-        print(self.songs_played)
 
         pygame.mixer.music.load(musics[self.id_music][1])
         pygame.mixer.music.play()
