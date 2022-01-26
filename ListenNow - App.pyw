@@ -503,6 +503,9 @@ class ListenNow(QMainWindow):
             self.id_music = id
             pygame.mixer.music.load(musics[self.id_music][1])
             pygame.mixer.music.play()
+            if self.id_music in self.songs_played:
+                current_music = self.songs_played.index(self.id_music)
+                self.songs_played.pop(current_music)
             self.songs_played.append(self.id_music)
             self.Artist_Music()
         except:
@@ -522,6 +525,9 @@ class ListenNow(QMainWindow):
 
         pygame.mixer.music.load(musics[self.id_music][1])
         pygame.mixer.music.play()
+        if self.id_music in self.songs_played:
+            current_music = self.songs_played.index(self.id_music)
+            self.songs_played.pop(current_music)
 
         self.songs_played.append(self.id_music)
         self.Artist_Music()
