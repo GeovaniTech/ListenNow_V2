@@ -123,7 +123,6 @@ class ListenNow(QMainWindow):
         # Songs Played
         self.songs_played = list()
 
-
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPos()
 
@@ -385,17 +384,6 @@ class ListenNow(QMainWindow):
             item = items[0]
             self.ui.tableWidget.setCurrentItem(item)
 
-    def PlayTable(self):
-        id = self.ui.tableWidget.currentIndex().row()
-        self.id_music = id
-        pygame.mixer.music.load(musics[self.id_music][1])
-        pygame.mixer.music.play()
-        self.songs_played.append(self.id_music)
-        self.Artist_Music()
-
-        self.count_play = 2
-        self.Play_Pause()
-
     def Som(self, value):
         self.value = value
         self.volume = f"{0}.{value}"
@@ -407,19 +395,6 @@ class ListenNow(QMainWindow):
         else:
             self.ui.btn_sound.setStyleSheet('QPushButton {border: 0px;background-image: url(:/icons/imagens/volume.png);}'
                                             'QPushButton:hover {border: 0px;background-image: url(:/icons/imagens/volume_hover.png);}')
-
-    def PlaySongs(self, id):
-        try:
-            self.id_music = id
-            pygame.mixer.music.load(musics[self.id_music][1])
-            pygame.mixer.music.play()
-
-            self.songs_played.append(self.id_music)
-            self.Artist_Music()
-        except:
-            self.Delete_Music(id + 1)
-            self.PopUps('Error Play Song',
-                        f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
     def Pause(self):
         pygame.mixer.music.pause()
@@ -472,32 +447,87 @@ class ListenNow(QMainWindow):
             self.ui.lbl_name_Music.setText('Music')
 
     def Next_Music(self):
+        ...
+
         if len(musics) > 0:
-            self.id_music += 1
-            if self.id_music == len(musics):
-                self.id_music = 0
+            if len(self.songs_played) > 0:
+                if self.id_music == self.songs_played[-1]:
+                    self.id_music += 1
+                    if self.shuffle == True:
+                        len_musics = len(musics) - 1
+                        random_id = random.randint(0, int(len_musics))
+                        self.id_music = random_id
+                        self.PlaySongs(self.id_music)
+                    else:
+                        self.PlaySongs(self.id_music)
+                else:
+                    current_music = self.songs_played.index(self.id_music)
+                    self.id_music = self.songs_played[current_music + 1]
 
-            if self.shuffle == True:
-                len_musics = len(musics) - 1
-                random_id = random.randint(0, int(len_musics))
-                self.id_music = random_id
+                    pygame.mixer.music.load(musics[self.id_music][1])
+                    pygame.mixer.music.play()
+                    self.count_play = 1
+                    self.Play()
+                    self.Artist_Music()
 
-            self.PlaySongs(self.id_music)
-            self.count_play = 1
-            self.Play()
+        print(self.id_music)
+        print(self.songs_played)
 
     def Return_Music(self):
+        ...
+
         if len(musics) > 0:
-            if len(self.songs_played) > 1 :
-                if self.songs_played.index(self.id_music):
-                    self.id_music = self.songs_played[self.songs_played.index(self.id_music) - 1]
+            if len(self.songs_played) > 0:
+                if self.id_music == self.songs_played[0]:
+                    self.id_music = len(musics) - 1
+                    self.PlaySongs(self.id_music)
+                else:
+                    if self.id_music in self.songs_played:
+                        current_music = self.songs_played.index(self.id_music)
+                        self.id_music = self.songs_played[current_music - 1]
 
-                pygame.mixer.music.load(musics[self.id_music][1])
-                pygame.mixer.music.play()
+                        pygame.mixer.music.load(musics[self.id_music][1])
+                        pygame.mixer.music.play()
+                        self.count_play = 1
+                        self.Artist_Music()
+                        self.Play()
+                    else:
+                        self.id_music -= 1
+                        self.PlaySongs(self.id_music)
 
-                self.Artist_Music()
-                self.count_play = 2
-                self.Play_Pause()
+        print(self.id_music)
+        print(self.songs_played)
+
+    def PlaySongs(self, id):
+        try:
+            self.id_music = id
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
+            self.songs_played.append(self.id_music)
+            self.Artist_Music()
+        except:
+            self.Delete_Music(id + 1)
+            self.PopUps('Error Play Song',
+                        f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
+
+        print(self.id_music)
+        print(self.songs_played)
+
+    def PlayTable(self):
+        id = self.ui.tableWidget.currentIndex().row()
+        self.id_music = id
+
+        print(self.id_music)
+        print(self.songs_played)
+
+        pygame.mixer.music.load(musics[self.id_music][1])
+        pygame.mixer.music.play()
+
+        self.songs_played.append(self.id_music)
+        self.Artist_Music()
+
+        self.count_play = 2
+        self.Play_Pause()
 
     def Automatic_Musics(self):
         END_EVENT = pygame.USEREVENT + 1
