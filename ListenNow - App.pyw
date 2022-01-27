@@ -459,14 +459,20 @@ class ListenNow(QMainWindow):
                     else:
                         self.PlaySongs(self.id_music)
                 else:
-                    current_music = self.songs_played.index(self.id_music)
-                    self.id_music = self.songs_played[current_music + 1]
+                    try:
+                        current_music = self.songs_played.index(self.id_music)
+                        self.id_music = self.songs_played[current_music + 1]
 
-                    pygame.mixer.music.load(musics[self.id_music][1])
-                    pygame.mixer.music.play()
-                    self.count_play = 1
-                    self.Play()
-                    self.Artist_Music()
+                        pygame.mixer.music.load(musics[self.id_music][1])
+                        pygame.mixer.music.play()
+                        self.Artist_Music()
+                        self.count_play = 2
+                        self.Play_Pause()
+
+                    except:
+                        self.Delete_Music(self.id_music + 1)
+                        self.PopUps('Error Play Song',
+                                    f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
 
     def Return_Music(self):
@@ -476,18 +482,24 @@ class ListenNow(QMainWindow):
                     self.id_music = len(musics) - 1
                     self.PlaySongs(self.id_music)
                 else:
-                    if self.id_music in self.songs_played:
-                        current_music = self.songs_played.index(self.id_music)
-                        self.id_music = self.songs_played[current_music - 1]
+                    try:
+                        if self.id_music in self.songs_played:
+                            current_music = self.songs_played.index(self.id_music)
+                            self.id_music = self.songs_played[current_music - 1]
 
-                        pygame.mixer.music.load(musics[self.id_music][1])
-                        pygame.mixer.music.play()
-                        self.count_play = 1
-                        self.Artist_Music()
-                        self.Play()
-                    else:
-                        self.id_music -= 1
-                        self.PlaySongs(self.id_music)
+                            pygame.mixer.music.load(musics[self.id_music][1])
+                            pygame.mixer.music.play()
+                            self.Artist_Music()
+                            self.count_play = 2
+                            self.Play_Pause()
+
+                        else:
+                            self.id_music -= 1
+                            self.PlaySongs(self.id_music)
+                    except:
+                        self.Delete_Music(self.id_music + 1)
+                        self.PopUps('Error Play Song',
+                                    f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
     def PlaySongs(self, id):
         try:
@@ -499,6 +511,8 @@ class ListenNow(QMainWindow):
                 self.songs_played.pop(current_music)
             self.songs_played.append(self.id_music)
             self.Artist_Music()
+            self.count_play = 2
+            self.Play_Pause()
         except:
             self.Delete_Music(id + 1)
             self.PopUps('Error Play Song',
@@ -508,17 +522,22 @@ class ListenNow(QMainWindow):
         id = self.ui.tableWidget.currentIndex().row()
         self.id_music = id
 
-        pygame.mixer.music.load(musics[self.id_music][1])
-        pygame.mixer.music.play()
-        if self.id_music in self.songs_played:
-            current_music = self.songs_played.index(self.id_music)
-            self.songs_played.pop(current_music)
+        try:
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
+            if self.id_music in self.songs_played:
+                current_music = self.songs_played.index(self.id_music)
+                self.songs_played.pop(current_music)
 
-        self.songs_played.append(self.id_music)
-        self.Artist_Music()
+            self.songs_played.append(self.id_music)
+            self.Artist_Music()
 
-        self.count_play = 2
-        self.Play_Pause()
+            self.count_play = 2
+            self.Play_Pause()
+        except:
+            self.Delete_Music(id + 1)
+            self.PopUps('Error Play Song',
+                        f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
 
     def Automatic_Musics(self):
         END_EVENT = pygame.USEREVENT + 1
