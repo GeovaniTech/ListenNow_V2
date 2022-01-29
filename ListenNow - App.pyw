@@ -321,14 +321,19 @@ class ListenNow(QMainWindow):
         if self.id_music == id_deleted - 1 and len(musics) > 0:
             pygame.mixer.music.load(musics[0][1])
             pygame.mixer.music.play()
-            self.count_play = 2
+            self.ui.btn_play.setStyleSheet(self.stylePause)
+            self.id_music = 0
+            self.songs_played.append(self.id_music)
+            self.count_play = 1
             self.Artist_Music()
 
         if self.id_music == id - 1 and self.id_music != 0:
             self.id_music = self.id_music - 1
             pygame.mixer.music.load(musics[self.id_music][1])
             pygame.mixer.music.play()
-            self.count_play = 2
+            self.songs_played.append(self.id_music)
+            self.ui.btn_play.setStyleSheet(self.stylePause)
+            self.count_play = 1
             self.Artist_Music()
 
         elif self.id_music != id - 1 and self.id_music != 0 and self.id_music + 1 > id_deleted:
@@ -459,30 +464,34 @@ class ListenNow(QMainWindow):
     def Next_Music(self):
         if len(musics) > 0:
             if len(self.songs_played) > 0:
-                if self.id_music == self.songs_played[-1]:
-                    self.id_music += 1
-                    if self.shuffle == True:
-                        len_musics = len(musics) - 1
-                        random_id = random.randint(0, int(len_musics))
-                        self.id_music = random_id
-                        self.PlaySongs(self.id_music)
-                    else:
-                        self.PlaySongs(self.id_music)
+                if self.id_music == len(musics) - 1:
+                    self.id_music = 0
+                    self.PlaySongs(self.id_music)
                 else:
-                    try:
-                        current_music = self.songs_played.index(self.id_music)
-                        self.id_music = self.songs_played[current_music + 1]
+                    if self.id_music == self.songs_played[-1]:
+                        self.id_music += 1
+                        if self.shuffle == True:
+                            len_musics = len(musics) - 1
+                            random_id = random.randint(0, int(len_musics))
+                            self.id_music = random_id
+                            self.PlaySongs(self.id_music)
+                        else:
+                            self.PlaySongs(self.id_music)
+                    else:
+                        try:
+                            current_music = self.songs_played.index(self.id_music)
+                            self.id_music = self.songs_played[current_music + 1]
 
-                        pygame.mixer.music.load(musics[self.id_music][1])
-                        pygame.mixer.music.play()
-                        self.Artist_Music()
-                        self.count_play = 2
-                        self.Play_Pause()
+                            pygame.mixer.music.load(musics[self.id_music][1])
+                            pygame.mixer.music.play()
+                            self.Artist_Music()
+                            self.count_play = 2
+                            self.Play_Pause()
 
-                    except:
-                        self.Delete_Music(self.id_music + 1)
-                        self.PopUps('Error Play Song',
-                                    f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
+                        except:
+                            self.Delete_Music(self.id_music + 1)
+                            self.PopUps('Error Play Song',
+                                        f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
             else:
                 self.PlaySongs(0)
 
