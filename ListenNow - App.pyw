@@ -302,8 +302,13 @@ class ListenNow(QMainWindow):
                 cursor.execute(f'UPDATE music set id = {music[0] - 1} WHERE nome = "{music[1]}"')
                 bank.commit()
 
+        # Treatments when deleting songs
         self.Musics()
         self.UpdateTable()
+
+        if id - 1 in self.songs_played:
+            pos = self.songs_played.index(id - 1)
+            self.songs_played.pop(pos)
 
         if len(musics) == 0:
             pygame.mixer.music.stop()
@@ -313,13 +318,18 @@ class ListenNow(QMainWindow):
             self.Artist_Music()
             self.Home()
 
-        elif self.id_music == id - 1 and self.id_music == 0 and len(musics) > 0:
-            self.id_music = self.id_music - 1
-            self.Next_Music()
+        if self.id_music == id_deleted - 1 and len(musics) > 0:
+            pygame.mixer.music.load(musics[0][1])
+            pygame.mixer.music.play()
+            self.count_play = 2
+            self.Artist_Music()
 
-        elif self.id_music == id - 1 and self.id_music != 0:
+        if self.id_music == id - 1 and self.id_music != 0:
             self.id_music = self.id_music - 1
-            self.Next_Music()
+            pygame.mixer.music.load(musics[self.id_music][1])
+            pygame.mixer.music.play()
+            self.count_play = 2
+            self.Artist_Music()
 
         elif self.id_music != id - 1 and self.id_music != 0 and self.id_music + 1 > id_deleted:
             self.id_music = self.id_music - 1
@@ -473,7 +483,8 @@ class ListenNow(QMainWindow):
                         self.Delete_Music(self.id_music + 1)
                         self.PopUps('Error Play Song',
                                     f'Unfortunately we were unable to play this song, it may be corrupted or deleted from the location.')
-
+            else:
+                self.PlaySongs(0)
 
     def Return_Music(self):
         if len(musics) > 0:
@@ -509,6 +520,7 @@ class ListenNow(QMainWindow):
             if self.id_music in self.songs_played:
                 current_music = self.songs_played.index(self.id_music)
                 self.songs_played.pop(current_music)
+
             self.songs_played.append(self.id_music)
             self.Artist_Music()
             self.count_play = 2
