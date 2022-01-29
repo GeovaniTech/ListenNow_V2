@@ -1,6 +1,6 @@
 # ListenNow - Music Player
 
-> Status: Development⚠️
+> Status: Finished✔️
 
 ### This is the second version of a music player I developed. In it you can add your music, as well as download and mainly play them. In it you can add your music, as well as download and mainly play them. 
 
