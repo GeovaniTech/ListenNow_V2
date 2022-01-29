@@ -1,6 +1,6 @@
 import cx_Freeze
 
-executables = [cx_Freeze.Executable('ListenNow - App.pyw', icon='View/QRC/logo.ico', base='Win32GUI')]
+executables = [cx_Freeze.Executable('ListenNow - App.pyw', icon='View/QRC/logo.ico')]
 
 cx_Freeze.setup(
     name="ListenNow",
