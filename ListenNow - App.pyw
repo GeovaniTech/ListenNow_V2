@@ -242,6 +242,7 @@ class ListenNow(QMainWindow):
 
         self.completer = list()
         self.completer.clear()
+        self.error_songs = list()
 
         self.ui.tableWidget.setRowCount(len(musics))
 
@@ -275,6 +276,10 @@ class ListenNow(QMainWindow):
                     row += 1
             except:
                 self.Delete_Music(music[0])
+                self.error_songs.append(music)
+
+        if len(self.error_songs) > 0:
+                self.PopUps('Error - Add Songs', f"{len(self.error_songs)} not added as they are already in the bank!")
 
         self.completer_songs = QCompleter(self.completer)
         self.completer_songs.popup().setStyleSheet('background-color: rgb(87, 87, 87); color: white; border: 1px solid #4A4A4A; font: 11pt "Century Gothic";')
